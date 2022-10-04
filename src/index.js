@@ -139,7 +139,7 @@ app.delete('/deleteOneShip/:id', async (req,res) => {
  * @api {put} /spaceships/:id Update a spaceship
  * @apiParam {String} id ID of the spaceship
  * @body {String} name new name of the spaceship
- */
+*/
 app.put('/shipsUpdate/:id', async (req,res) => {
     
 
@@ -176,32 +176,53 @@ app.put('/shipsUpdate/:id', async (req,res) => {
 });
 
 
-// play a game with me 
-// if you find the easter egg you will get a cookie
-// ok i will play with you
-// ok so the easter egg is in the code
-// wtf are you sure
-// yes i am sure
-//so you say that the easter egg is in the code
-// yes
-// i don't find it
-// you have to find it
-//pls help me
-// i can't help you
-// bro you now where is the easter egg
-// yes i know
-// ok so tell me
-// no
-// You have to say where is the easter egg it's a order
-// no
-// ok i will find it
-// ok
-// ok i found it
-// ok
-// ok so where is the easter egg
-// no
-// ok i will find it
-// ok
-// there is no easter egg
-// yes there is
-// no there is not
+/**
+ * @api {put} /editShipImg/:id Update a spaceship image
+ * @apiParam {String} id ID of the spaceship
+ * @body {String} img new image url of the spaceship
+*/
+app.put('/editShipImg/:id', async (req,res) => {
+        
+    
+        try{
+             //connect to the db
+            await client.connect();
+            
+             // Create the new space ship object
+            let newShip = {
+            
+                img: req.body.img
+                
+            }
+            
+            // Insert into the database
+            let updateResult = await collection.updateOne({_id: ObjectId(req.params.id)}, 
+            {$set: newShip});
+    
+             //Send back successmessage with the updated object
+            res.status(201).json(updateResult);
+    
+            //print oK no problem bro after the spaceship is updated just for fun HAHA XD
+            console.log('oK no problem bro :>');
+            return;
+        }catch(error){
+            console.log(error);
+            res.status(500).send({
+                error: ':< nooo Something went wrong',
+                value: error
+            });
+        }finally {
+            await client.close();
+        }
+});
+
+/**
+ * Yo 
+ * 
+ * This is the end of the code :>
+ * i hope you like it !
+ * 
+ * sayonara :>
+ * Yassin 
+ * 
+ */
