@@ -1,7 +1,7 @@
-const express = require('express');
-const app = express();
+const express = require('express'); //require express
+const app = express(); //create express app
 //var bodyParser = require('body-parser');
-const { MongoClient, ObjectId } = require('mongodb');
+const { MongoClient, ObjectId } = require('mongodb'); //require mongodb
 
 const uri = "mongodb+srv://admin:1234@cluster0.fgewj.mongodb.net/dev5?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -10,11 +10,11 @@ client.connect(err => {
  
 });
 
-const myDataBase = 'dev5';
-const db = client.db(myDataBase);
+const myDataBase = 'dev5'; //database name
+const db = client.db(myDataBase); //client database
 
-const collection = db.collection('spaceships');
-const morgan = require('morgan');
+const collection = db.collection('spaceships'); //database collection
+const morgan = require('morgan'); //require morgan
 
 app.use(express.static('public'));
     app.use(morgan("dev"))
@@ -23,7 +23,10 @@ app.use(express.static('public'));
 
 
 
-
+/** 
+ * @listens port
+ * @returns {string} - message to confirm server is running on port 3000
+ */
 app.listen(3000,(err) =>{
 
     if(!err) console.log(':> running on port 3000')
@@ -31,9 +34,14 @@ app.listen(3000,(err) =>{
     else console.log('>:< ' +err)
 });
 
-/**
+/**template retunrSpaceShip:
+ *  id: string - id of the spaceship
+ *  name: string - name of the spaceship
+ *  fictional: boolean - is the spaceship fictional
+ *  img: string - url to the image of the spaceship
+ * 
  * @api {get} /spaceships Get all spaceships
- * returns all spaceships
+ * @returns retunrSpaceShip
  */
 app.get('/spaceShipData', async (req,res)=>{
 
@@ -41,12 +49,12 @@ app.get('/spaceShipData', async (req,res)=>{
         //connect to the db
         await client.connect();
 
-        const bpl = await collection.find({}).toArray();
+        const myCollectionArray = await collection.find().toArray(); //array of all spaceships
 
-        console.log('let s goooo :>')
+        console.log('let s goooo :>');
 
         //Send back the data with the response
-        res.status(200).send(bpl);
+        res.status(200).send(myCollectionArray);
 
         //print let s gooo :> in the console juste for fun hahaha 
         console.log('let s goooo :>')
@@ -64,10 +72,17 @@ app.get('/spaceShipData', async (req,res)=>{
 
 
 /** 
+ * template retunrSpaceShip:
+ *  id: string - id of the spaceship
+ *  name: string - name of the spaceship
+ *  fictional: boolean - is the spaceship fictional
+ *  img: string - url to the image of the spaceship
+ * 
  * @api {post} /spaceships Add a spaceship
- * @body {String} name Name of the spaceship
- * @body {Boolean} fictional Is the spaceship fictional?
- * @body {String} img URL of the spaceship image
+ * @param {String} name Name of the spaceship
+ * @param {Boolean} fictional Is the spaceship fictional?
+ * @param {String} img URL of the spaceship image
+ * @returns retunrSpaceShip - The spaceship that was added
  */
 app.post('/postShip', async (req, res) => {
 
@@ -95,16 +110,24 @@ app.post('/postShip', async (req, res) => {
             error: '>:< Something went wrong',
             value: error
         });
-    }finally {
+    }
+    finally {
         await client.close();
     }
 });
 
 
 
-/**
+/*** 
+ * template retunrSpaceShip:
+ *  id: string - id of the spaceship
+ *  name: string - name of the spaceship
+ *  fictional: boolean - is the spaceship fictional
+ *  img: string - url to the image of the spaceship
+ * 
  * @api {delete} /spaceships/:id Delete a spaceship
- * @apiParam {String} id ID of the spaceship
+ * @param {String} id ID of the spaceship
+ * @return retunrSpaceShip
  */
 app.delete('/deleteOneShip/:id', async (req,res) => {
  
@@ -120,7 +143,7 @@ app.delete('/deleteOneShip/:id', async (req,res) => {
 
         // print Noooo after the spaceship is deleted just for fun HAHA XD
         console.log('nooo :<');
-        return;
+       // return;
     }catch(error){
         console.log(error);
 
@@ -136,9 +159,16 @@ app.delete('/deleteOneShip/:id', async (req,res) => {
 
 
 /**
+ * template retunrSpaceShip:
+ *  id: string - id of the spaceship
+ *  name: string - name of the spaceship
+ *  fictional: boolean - is the spaceship fictional
+ *  img: string - url to the image of the spaceship
+ * 
  * @api {put} /spaceships/:id Update a spaceship
- * @apiParam {String} id ID of the spaceship
- * @body {String} name new name of the spaceship
+ * @param {String} id ID of the spaceship
+ * @param {String} name new name of the spaceship
+ * @return retunrSpaceShip
 */
 app.put('/shipsUpdate/:id', async (req,res) => {
     
@@ -163,7 +193,7 @@ app.put('/shipsUpdate/:id', async (req,res) => {
 
         //print oK no problem bro after the spaceship is updated just for fun HAHA XD
         console.log('oK no problem bro :>');
-        return;
+       // return;
     }catch(error){
         console.log(error);
         res.status(500).send({
@@ -177,9 +207,16 @@ app.put('/shipsUpdate/:id', async (req,res) => {
 
 
 /**
+ * template retunrSpaceShip:
+ *  id: string - id of the spaceship
+ *  name: string - name of the spaceship
+ *  fictional: boolean - is the spaceship fictional
+ *  img: string - url to the image of the spaceship
+ * 
  * @api {put} /editShipImg/:id Update a spaceship image
- * @apiParam {String} id ID of the spaceship
- * @body {String} img new image url of the spaceship
+ * @param {String} id ID of the spaceship
+ * @param {String} img new image url of the spaceship
+ * @return retunrSpaceShip
 */
 app.put('/editShipImg/:id', async (req,res) => {
         
@@ -204,7 +241,7 @@ app.put('/editShipImg/:id', async (req,res) => {
     
             //print oK no problem bro after the spaceship is updated just for fun HAHA XD
             console.log('oK no problem bro :>');
-            return;
+            //return;
         }catch(error){
             console.log(error);
             res.status(500).send({
@@ -226,3 +263,4 @@ app.put('/editShipImg/:id', async (req,res) => {
  * Yassin 
  * 
  */
+
