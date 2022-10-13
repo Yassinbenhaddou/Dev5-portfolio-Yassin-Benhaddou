@@ -5,10 +5,6 @@ const { MongoClient, ObjectId } = require('mongodb'); //require mongodb
 
 const uri = "mongodb+srv://admin:1234@cluster0.fgewj.mongodb.net/dev5?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  
- 
-});
 
 const myDataBase = 'dev5'; //database name
 const db = client.db(myDataBase); //client database
@@ -211,7 +207,7 @@ app.put('/shipsUpdate/:id', async (req,res) => {
  *  id: string - id of the spaceship
  *  name: string - name of the spaceship
  *  fictional: boolean - is the spaceship fictional
- *  img: string - url to the image of the spaceship
+ *  img: string - url to the image of the spaceship 
  * 
  * @api {put} /editShipImg/:id Update a spaceship image
  * @param {String} id ID of the spaceship
