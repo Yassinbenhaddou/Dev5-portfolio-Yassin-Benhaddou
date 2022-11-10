@@ -25,9 +25,9 @@ app.use(express.static('public'));
  */
 app.listen(3000,(err) =>{
 
-    if(!err) console.log('Yo! :> running on port 3000')
+    if(!err) console.log('Yo! ;D running on port 3000')
 
-    else console.log('>:< ' +err)
+    else console.log('D: ' +err)
 });
 
 
