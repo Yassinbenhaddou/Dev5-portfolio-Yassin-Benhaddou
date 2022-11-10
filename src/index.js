@@ -25,27 +25,26 @@ app.use(express.static('public'));
  */
 app.listen(3000,(err) =>{
 
-    if(!err) console.log(':> running on port 3000')
+    if(!err) console.log('Yo! :> running on port 3000')
 
     else console.log('>:< ' +err)
 });
 
-/**template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  fictional: boolean - is the spaceship fictional
- *  img: string - url to the image of the spaceship
+
+
+/** 
+ * New Get 2
+ * Get the list of the generated SpaceShips 
  * 
- * @api {get} /spaceships Get all spaceships
- * @returns retunrSpaceShip
  */
-app.get('/spaceShipData', async (req,res)=>{
+
+ app.get('/spaceShipData', async (req,res)=>{
 
     try{
         //connect to the db
         await client.connect();
 
-        const myCollectionArray = await collection.find().toArray(); //array of all spaceships
+        const myCollectionArray = await collection.find().toArray(); //array of all generated spaceships
 
         console.log('let s goooo :>');
 
@@ -68,37 +67,78 @@ app.get('/spaceShipData', async (req,res)=>{
 
 
 /** 
- * template retunrSpaceShip:
+ * New Get 
+ * Get the generated Space Ship his name, Power, Speed, ...
+ * 
+ */
+ app.get('/result', async (req,res)=>{
+
+    try{
+        //connect to the db
+        await client.connect();
+
+        const myCollectionArray = await collection.find().toArray(); //the generated data
+
+        console.log('let s goooo :>');
+
+        //Send back the data with the response
+        res.status(200).send(myCollectionArray);
+
+        //print let s gooo :> in the console juste for fun hahaha 
+        console.log('let s goooo :>')
+    }catch(error){
+        console.log(error)
+        res.status(500).send({
+            error: '>:< Something went wrong!',
+            value: error
+        });
+    }finally {
+        await client.close();
+    }
+  
+});
+
+
+/**template retunrSpaceShip:
  *  id: string - id of the spaceship
  *  name: string - name of the spaceship
  *  fictional: boolean - is the spaceship fictional
  *  img: string - url to the image of the spaceship
  * 
- * @api {post} /spaceships Add a spaceship
- * @param {String} name Name of the spaceship
- * @param {Boolean} fictional Is the spaceship fictional?
- * @param {String} img URL of the spaceship image
- * @returns retunrSpaceShip - The spaceship that was added
+ * @api {get} /spaceships Get all spaceships
+ * @returns retunrSpaceShip
  */
-app.post('/postShip', async (req, res) => {
+
+
+
+
+/** 
+ * New Post 
+ * The Answers to the questions generate a Customized Space Ship
+ * The Post contains Questions to the Answers + SpaceShip Name
+ */
+
+ app.post('/postShip', async (req, res) => {
 
     try{
         //connect to the db
         await client.connect();
        
         // add the new comment 
-        let newShip = {
-            name: req.body.spaceShipName,
-            fiction: req.body.fiction,
-            img: req.body.img
+        let newAnswers = {
+            spaceShipName: req.body.spaceShipName,
+            answer1: req.body.answer[0],
+            answer2: req.body.answers[1],
+            answer3: req.body.answers[2],
+            answer4: req.body.answers[3]
 
         }
         
         // Insert into the database
-        let insertResult = await collection.insertOne(newShip);
+        let insertResult = await collection.insertOne(newAnswers);
 
         //Send back successmessage with the a yoohoo just for fun
-        res.status(201).send(`:> Yooohoo ship succesfully saved with id `);
+        res.status(201).send(`:> Yooohoo ship succesfully generated with id `);
         
     }catch(error){
         console.log(error);
@@ -112,20 +152,30 @@ app.post('/postShip', async (req, res) => {
     }
 });
 
-
-
-/*** 
+/** 
  * template retunrSpaceShip:
  *  id: string - id of the spaceship
  *  name: string - name of the spaceship
  *  fictional: boolean - is the spaceship fictional
  *  img: string - url to the image of the spaceship
  * 
- * @api {delete} /spaceships/:id Delete a spaceship
- * @param {String} id ID of the spaceship
- * @return retunrSpaceShip
+ * @api {post} /spaceships Add a spaceship
+ * @param {String} name Name of the spaceship
+ * @param {Boolean} fictional Is the spaceship fictional?
+ * @param {String} img URL of the spaceship image
+ * @returns retunrSpaceShip - The spaceship that was added
  */
-app.delete('/deleteOneShip/:id', async (req,res) => {
+
+
+
+
+/**
+ * New Delete 
+ * delete your Generated SpaceShip
+ *  
+ **/
+
+ app.delete('/deleteOneShip/:id', async (req,res) => {
  
     try{
 
@@ -154,18 +204,11 @@ app.delete('/deleteOneShip/:id', async (req,res) => {
 });
 
 
+
 /**
- * template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  fictional: boolean - is the spaceship fictional
- *  img: string - url to the image of the spaceship
- * 
- * @api {put} /spaceships/:id Update a spaceship
- * @param {String} id ID of the spaceship
- * @param {String} name new name of the spaceship
- * @return retunrSpaceShip
-*/
+ * New Put change your generated SpaceShip Name
+ */
+
 app.put('/shipsUpdate/:id', async (req,res) => {
     
 
@@ -202,6 +245,78 @@ app.put('/shipsUpdate/:id', async (req,res) => {
 });
 
 
+
+/** 
+ * 
+ * input: answers to qustions
+ * 
+ * Output: Generated SpaceShip  and list of generated Spaceships of others users
+ * 
+ * 
+ */
+
+/*** 
+ * template retunrSpaceShip:
+ *  id: string - id of the spaceship
+ *  name: string - name of the spaceship
+ *  fictional: boolean - is the spaceship fictional
+ *  img: string - url to the image of the spaceship
+ * 
+ * @api {delete} /spaceships/:id Delete a spaceship
+ * @param {String} id ID of the spaceship
+ * @return retunrSpaceShip
+ */
+
+
+
+/**
+ * template retunrSpaceShip:
+ *  id: string - id of the spaceship
+ *  name: string - name of the spaceship
+ *  fictional: boolean - is the spaceship fictional
+ *  img: string - url to the image of the spaceship
+ * 
+ * @api {put} /spaceships/:id Update a spaceship
+ * @param {String} id ID of the spaceship
+ * @param {String} name new name of the spaceship
+ * @return retunrSpaceShip
+*/
+/*app.put('/shipsUpdate/:id', async (req,res) => {
+    
+
+    try{
+         //connect to the db
+        await client.connect();
+        
+         // Create the new space ship object
+        let newShip = {
+          
+            name: req.body.spaceShipName
+            
+        }
+        
+        // Insert into the database
+        let updateResult = await collection.updateOne({_id: ObjectId(req.params.id)}, 
+        {$set: newShip});
+
+         //Send back successmessage with the updated object
+        res.status(201).json(updateResult);
+
+        //print oK no problem bro after the spaceship is updated just for fun HAHA XD
+        console.log('oK no problem bro :>');
+       // return;
+    }catch(error){
+        console.log(error);
+        res.status(500).send({
+            error: ':< nooo Something went wrong',
+            value: error
+        });
+    }finally {
+        await client.close();
+    }
+});*/
+
+
 /**
  * template retunrSpaceShip:
  *  id: string - id of the spaceship
@@ -213,7 +328,7 @@ app.put('/shipsUpdate/:id', async (req,res) => {
  * @param {String} id ID of the spaceship
  * @param {String} img new image url of the spaceship
  * @return retunrSpaceShip
-*/
+*//*
 app.put('/editShipImg/:id', async (req,res) => {
         
     
@@ -247,7 +362,7 @@ app.put('/editShipImg/:id', async (req,res) => {
         }finally {
             await client.close();
         }
-});
+});*/
 
 /**
  * Yo 
