@@ -1,21 +1,76 @@
-const express = require('express'); //require express
-const app = express(); //create express app
-//var bodyParser = require('body-parser');
-const { MongoClient, ObjectId } = require('mongodb'); //require mongodb
+const express = require("express");
+const server = express();
+const PORT = 3000;
+server.use(express.json());
 
-const uri = "mongodb+srv://admin:1234@cluster0.fgewj.mongodb.net/dev5?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
-const myDataBase = 'dev5'; //database name
-const db = client.db(myDataBase); //client database
+const pg = require('knex')({
+    client: 'pg',
+    version: '15',
+    searchPath: ['knex', 'public'],
+    connection: process.env.PG_CONNECTION_STRING ? process.env.PG_CONNECTION_STRING : 'postgres://admin:admin@store:5432/spaceShipsApi'
+});
 
-const collection = db.collection('spaceships'); //database collection
-const morgan = require('morgan'); //require morgan
 
-app.use(express.static('public'));
-    app.use(morgan("dev"))
-    .use(express.json())
-   
+
+
+/**
+ * initializations of the database tables 
+ * addition of the planets table
+ */
+async function initialiseTables() {
+
+    
+    await pg.schema.hasTable('spaceShipsApi').then(async (exists) => {
+        if (!exists) {
+            await pg.schema
+                .createTable('spaceShipsApi', (table) => {
+                    table.increments();
+                    table.string('name');
+                    table.string('motor');
+                    table.string('wings');
+                    table.string('reactor');
+                    table.string('shield');
+                    table.string('weapon');
+                    table.string('pilot');
+
+                    table.timestamps(true, true);
+                })
+                .then(async () => {
+                    console.log('created');
+                });
+        } else {
+            console.log('already exists')
+        }
+    });
+}
+
+initialiseTables();
+
+server.get("/ships", async (req, res) => {
+    const ships = await pg.select().from("spaceShipsApi");
+    res.json(ships);
+});
+
+/*
+server.post("/postships", async (req, res) => {
+    const { name, motor, wings, reactor, shield, weapon, pilot } = req.body;
+    const ship = await pg("spaceShipsApi").insert({
+        name,
+        motor,
+        wings,
+        reactor,
+        shield,
+        weapon,
+        pilot
+    });
+    res.json(ship);
+});*/
+
+
+
+
+
 
 
 
@@ -23,13 +78,14 @@ app.use(express.static('public'));
  * @listens port
  * @returns {string} - message to confirm server is running on port 3000
  */
+/*
 app.listen(3000,(err) =>{
 
     if(!err) console.log('Yo! ;D running on port 3000')
 
     else console.log('D: ' +err)
 });
-
+*/
 
 
 /** 
@@ -37,7 +93,7 @@ app.listen(3000,(err) =>{
  * Get the list of the generated SpaceShips 
  * 
  */
-
+/*
  app.get('/spaceShipData', async (req,res)=>{
 
     try{
@@ -71,6 +127,7 @@ app.listen(3000,(err) =>{
  * Get the generated Space Ship his name, Power, Speed, ...
  * 
  */
+/*
  app.get('/result', async (req,res)=>{
 
     try{
@@ -117,7 +174,7 @@ app.listen(3000,(err) =>{
  * The Answers to the questions generate a Customized Space Ship
  * The Post contains Questions to the Answers + SpaceShip Name
  */
-
+/*
  app.post('/postShip', async (req, res) => {
 
     try{
@@ -174,7 +231,7 @@ app.listen(3000,(err) =>{
  * delete your Generated SpaceShip
  *  
  **/
-
+/*
  app.delete('/deleteOneShip/:id', async (req,res) => {
  
     try{
@@ -205,164 +262,6 @@ app.listen(3000,(err) =>{
 
 
 
-/**
- * New Put change your generated SpaceShip Name
- */
-
-app.put('/shipsUpdate/:id', async (req,res) => {
-    
-
-    try{
-         //connect to the db
-        await client.connect();
-        
-         // Create the new space ship object
-        let newShip = {
-          
-            name: req.body.spaceShipName
-            
-        }
-        
-        // Insert into the database
-        let updateResult = await collection.updateOne({_id: ObjectId(req.params.id)}, 
-        {$set: newShip});
-
-         //Send back successmessage with the updated object
-        res.status(201).json(updateResult);
-
-        //print oK no problem bro after the spaceship is updated just for fun HAHA XD
-        console.log('oK no problem bro :>');
-       // return;
-    }catch(error){
-        console.log(error);
-        res.status(500).send({
-            error: ':< nooo Something went wrong',
-            value: error
-        });
-    }finally {
-        await client.close();
-    }
-});
-
-
-
-/** 
- * 
- * input: answers to qustions
- * 
- * Output: Generated SpaceShip  and list of generated Spaceships of others users
- * 
- * 
- */
-
-/*** 
- * template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  fictional: boolean - is the spaceship fictional
- *  img: string - url to the image of the spaceship
- * 
- * @api {delete} /spaceships/:id Delete a spaceship
- * @param {String} id ID of the spaceship
- * @return retunrSpaceShip
- */
-
-
-
-/**
- * template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  fictional: boolean - is the spaceship fictional
- *  img: string - url to the image of the spaceship
- * 
- * @api {put} /spaceships/:id Update a spaceship
- * @param {String} id ID of the spaceship
- * @param {String} name new name of the spaceship
- * @return retunrSpaceShip
-*/
-/*app.put('/shipsUpdate/:id', async (req,res) => {
-    
-
-    try{
-         //connect to the db
-        await client.connect();
-        
-         // Create the new space ship object
-        let newShip = {
-          
-            name: req.body.spaceShipName
-            
-        }
-        
-        // Insert into the database
-        let updateResult = await collection.updateOne({_id: ObjectId(req.params.id)}, 
-        {$set: newShip});
-
-         //Send back successmessage with the updated object
-        res.status(201).json(updateResult);
-
-        //print oK no problem bro after the spaceship is updated just for fun HAHA XD
-        console.log('oK no problem bro :>');
-       // return;
-    }catch(error){
-        console.log(error);
-        res.status(500).send({
-            error: ':< nooo Something went wrong',
-            value: error
-        });
-    }finally {
-        await client.close();
-    }
-});*/
-
-
-/**
- * template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  fictional: boolean - is the spaceship fictional
- *  img: string - url to the image of the spaceship 
- * 
- * @api {put} /editShipImg/:id Update a spaceship image
- * @param {String} id ID of the spaceship
- * @param {String} img new image url of the spaceship
- * @return retunrSpaceShip
-*//*
-app.put('/editShipImg/:id', async (req,res) => {
-        
-    
-        try{
-             //connect to the db
-            await client.connect();
-            
-             // Create the new space ship object
-            let newShip = {
-            
-                img: req.body.img
-                
-            }
-            
-            // Insert into the database
-            let updateResult = await collection.updateOne({_id: ObjectId(req.params.id)}, 
-            {$set: newShip});
-    
-             //Send back successmessage with the updated object
-            res.status(201).json(updateResult);
-    
-            //print oK no problem bro after the spaceship is updated just for fun HAHA XD
-            console.log('oK no problem bro :>');
-            //return;
-        }catch(error){
-            console.log(error);
-            res.status(500).send({
-                error: ':< nooo Something went wrong',
-                value: error
-            });
-        }finally {
-            await client.close();
-        }
-});*/
 
 /**
  * Yo 
@@ -374,4 +273,3 @@ app.put('/editShipImg/:id', async (req,res) => {
  * Yassin 
  * 
  */
-
