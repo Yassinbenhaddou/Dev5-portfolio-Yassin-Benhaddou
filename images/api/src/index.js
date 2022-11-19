@@ -3,13 +3,34 @@ const server = express();
 const PORT = 3000;
 server.use(express.json());
 
+const router = express.Router();
+
+module.exports = router;
 
 const pg = require('knex')({
+
     client: 'pg',
     version: '15',
     searchPath: ['knex', 'public'],
-    connection: process.env.PG_CONNECTION_STRING ? process.env.PG_CONNECTION_STRING : 'postgres://admin:admin@store:5432/spaceShipsApi'
+    connection: process.env.PG_CONNECTION_STRING ? process.env.PG_CONNECTION_STRING : 'postgres://admin:admin@spaceShipsdb:5432/spaceShipsApi',
+    port: 5432
+
 });
+/* 
+const pg = require('knex')({
+
+    client: 'pg',
+    connection: process.env.PG_CONNECTION_STRING ? process.env.PG_CONNECTION_STRING : "postgres://admin:admin@store:5432/spaceShipsApi"
+});
+*/
+//server.set("pg", pg);
+
+server.listen(PORT, () => {
+    console.log(`Server listening at ${PORT}`);
+    initialiseTables();
+}); 
+
+
 
 
 
@@ -18,44 +39,27 @@ const pg = require('knex')({
  * initializations of the database tables 
  * addition of the planets table
  */
-async function initialiseTables() {
 
-    
-    await pg.schema.hasTable('spaceShipsApi').then(async (exists) => {
-        if (!exists) {
-            await pg.schema
-                .createTable('spaceShipsApi', (table) => {
-                    table.increments();
-                    table.string('name');
-                    table.string('motor');
-                    table.string('wings');
-                    table.string('reactor');
-                    table.string('shield');
-                    table.string('weapon');
-                    table.string('pilot');
 
-                    table.timestamps(true, true);
-                })
-                .then(async () => {
-                    console.log('created');
-                });
-        } else {
-            console.log('already exists')
-        }
-    });
-}
-
-initialiseTables();
 
 server.get("/ships", async (req, res) => {
-    const ships = await pg.select().from("spaceShipsApi");
+
+
+
+
+    const ships = await pg.select().from("spaceShips");
     res.json(ships);
+
+    console.log("get ships");
+
+
+
 });
 
-/*
-server.post("/postships", async (req, res) => {
-    const { name, motor, wings, reactor, shield, weapon, pilot } = req.body;
-    const ship = await pg("spaceShipsApi").insert({
+
+server.post("/PostShips", async (req, res) => {
+    console.log("post ships");
+    const {
         name,
         motor,
         wings,
@@ -63,204 +67,100 @@ server.post("/postships", async (req, res) => {
         shield,
         weapon,
         pilot
+    } = req.body;
+    if (name, motor, wings, reactor, shield, weapon, pilot) {
+
+        await pg("spaceShips").insert({
+            name: name,
+            motor: motor,
+            wings: wings,
+            reactor: reactor,
+            shield: shield,
+            weapon: weapon, 
+            pilot: pilot
+        }).then(data => {
+            res.json(data);
+        }).catch(err => {
+            res.json(err);
+        });
+    } else {
+        res.json("error");
+    }
+});
+
+
+server.delete("/DeleteShips/:id", async (req, res) => {
+    console.log("delete ships");
+    const id = req.params.id;
+    await pg("spaceShips").where("id", id).del().then(data => {
+        res.json(data);
+    }).catch(err => {
+        res.json(err);
     });
-    res.json(ship);
-});*/
-
-
-
-
-
-
-
-
-/** 
- * @listens port
- * @returns {string} - message to confirm server is running on port 3000
- */
-/*
-app.listen(3000,(err) =>{
-
-    if(!err) console.log('Yo! ;D running on port 3000')
-
-    else console.log('D: ' +err)
 });
-*/
 
-
-/** 
- * New Get 2
- * Get the list of the generated SpaceShips 
- * 
- */
-/*
- app.get('/spaceShipData', async (req,res)=>{
-
-    try{
-        //connect to the db
-        await client.connect();
-
-        const myCollectionArray = await collection.find().toArray(); //array of all generated spaceships
-
-        console.log('let s goooo :>');
-
-        //Send back the data with the response
-        res.status(200).send(myCollectionArray);
-
-        //print let s gooo :> in the console juste for fun hahaha 
-        console.log('let s goooo :>')
-    }catch(error){
-        console.log(error)
-        res.status(500).send({
-            error: '>:< Something went wrong!',
-            value: error
+server.put("/PutShips/:id", async (req, res) => {
+    console.log("put ships");
+    const id = req.params.id;
+    const {
+        name,
+        motor,
+        wings,
+        reactor,
+        shield,
+        weapon,
+        pilot
+    } = req.body;
+    if (name, motor, wings, reactor, shield, weapon, pilot) {
+        await pg("spaceShips").where("id", id).update({
+            name: name,
+            motor: motor,
+            wings: wings,
+            reactor: reactor,
+            shield: shield,
+            weapon: weapon,
+            pilot: pilot
+        }).then(data => {
+            res.json(data);
+        }).catch(err => {
+            res.json(err);
         });
-    }finally {
-        await client.close();
+    } else {
+        res.json("error");
     }
-  
 });
 
 
-/** 
- * New Get 
- * Get the generated Space Ship his name, Power, Speed, ...
- * 
- */
-/*
- app.get('/result', async (req,res)=>{
-
-    try{
-        //connect to the db
-        await client.connect();
-
-        const myCollectionArray = await collection.find().toArray(); //the generated data
-
-        console.log('let s goooo :>');
-
-        //Send back the data with the response
-        res.status(200).send(myCollectionArray);
-
-        //print let s gooo :> in the console juste for fun hahaha 
-        console.log('let s goooo :>')
-    }catch(error){
-        console.log(error)
-        res.status(500).send({
-            error: '>:< Something went wrong!',
-            value: error
-        });
-    }finally {
-        await client.close();
-    }
-  
-});
-
-
-/**template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  fictional: boolean - is the spaceship fictional
- *  img: string - url to the image of the spaceship
- * 
- * @api {get} /spaceships Get all spaceships
- * @returns retunrSpaceShip
- */
 
 
 
 
-/** 
- * New Post 
- * The Answers to the questions generate a Customized Space Ship
- * The Post contains Questions to the Answers + SpaceShip Name
- */
-/*
- app.post('/postShip', async (req, res) => {
+async function initialiseTables() {
 
-    try{
-        //connect to the db
-        await client.connect();
-       
-        // add the new comment 
-        let newAnswers = {
-            spaceShipName: req.body.spaceShipName,
-            answer1: req.body.answer[0],
-            answer2: req.body.answers[1],
-            answer3: req.body.answers[2],
-            answer4: req.body.answers[3]
+    await pg.schema.hasTable('spaceShips').then(function (exists) {
 
+        if (!exists) {
+            pg.schema.createTable('spaceShips', function (table) {
+
+                table.increments('id').primary();
+
+                table.string('name');
+                table.string('motor');
+                table.string('wings');
+                table.string('reactor');
+                table.string('shield');
+                table.string('weapon');
+                table.string('pilot');
+
+            }).then(async function () {
+
+                console.log('Table spaceShips created');
+            })
+        } else {
+            console.log('Table spaceShips already exists');
         }
-        
-        // Insert into the database
-        let insertResult = await collection.insertOne(newAnswers);
-
-        //Send back successmessage with the a yoohoo just for fun
-        res.status(201).send(`:> Yooohoo ship succesfully generated with id `);
-        
-    }catch(error){
-        console.log(error);
-        res.status(500).send({
-            error: '>:< Something went wrong',
-            value: error
-        });
-    }
-    finally {
-        await client.close();
-    }
-});
-
-/** 
- * template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  fictional: boolean - is the spaceship fictional
- *  img: string - url to the image of the spaceship
- * 
- * @api {post} /spaceships Add a spaceship
- * @param {String} name Name of the spaceship
- * @param {Boolean} fictional Is the spaceship fictional?
- * @param {String} img URL of the spaceship image
- * @returns retunrSpaceShip - The spaceship that was added
- */
-
-
-
-
-/**
- * New Delete 
- * delete your Generated SpaceShip
- *  
- **/
-/*
- app.delete('/deleteOneShip/:id', async (req,res) => {
- 
-    try{
-
-        //connect to the db
-        await client.connect();
-
-        // delete the spaceship
-        let result = await collection.deleteOne({_id: ObjectId(req.params.id)});
-         //Send back successmessage with the deleted spaceship
-        res.status(201).json(result);
-
-        // print Noooo after the spaceship is deleted just for fun HAHA XD
-        console.log('nooo :<');
-       // return;
-    }catch(error){
-        console.log(error);
-
-        //if there is an error send back the error message with a small emoji
-        res.status(500).send({
-            error: '>:< Something went wrong',
-            value: error
-        });
-    }finally {
-        await client.close();
-    }
-});
-
-
+    });
+}
 
 
 /**
