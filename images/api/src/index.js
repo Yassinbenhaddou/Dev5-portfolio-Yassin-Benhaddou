@@ -1,34 +1,29 @@
 const express = require("express");
 const server = express();
 const PORT = 3000;
+
 server.use(express.json());
 
-const router = express.Router();
-
-module.exports = router;
-
+// connect to the postgres database 
 const pg = require('knex')({
 
-    client: 'pg',
-    version: '15',
+    client: 'pg', // client type
+    version: '15', // postgres version
     searchPath: ['knex', 'public'],
-    connection: process.env.PG_CONNECTION_STRING ? process.env.PG_CONNECTION_STRING : 'postgres://admin:admin@spaceShipsdb:5432/spaceShipsApi',
-    port: 5432
+    connection: process.env.PG_CONNECTION_STRING ? 
+        process.env.PG_CONNECTION_STRING : 'postgres://admin:admin@spaceShipsdb:5432/spaceShipsApi',
+    port: 5432 // port of the postgres server
 
 });
-/* 
-const pg = require('knex')({
 
-    client: 'pg',
-    connection: process.env.PG_CONNECTION_STRING ? process.env.PG_CONNECTION_STRING : "postgres://admin:admin@store:5432/spaceShipsApi"
-});
-*/
-//server.set("pg", pg);
 
+/** 
+ * when the server starts, console log the port number and start the table initialisation
+ */
 server.listen(PORT, () => {
-    console.log(`Server listening at ${PORT}`);
-    initialiseTables();
-}); 
+    console.log(`Server listening at ${PORT}`); 
+    initialiseTables(); // initialise the tables
+});
 
 
 
@@ -57,6 +52,7 @@ server.get("/ships", async (req, res) => {
 });
 
 
+
 server.post("/PostShips", async (req, res) => {
     console.log("post ships");
     const {
@@ -76,7 +72,7 @@ server.post("/PostShips", async (req, res) => {
             wings: wings,
             reactor: reactor,
             shield: shield,
-            weapon: weapon, 
+            weapon: weapon,
             pilot: pilot
         }).then(data => {
             res.json(data);
@@ -99,6 +95,10 @@ server.delete("/DeleteShips/:id", async (req, res) => {
     });
 });
 
+
+/** 
+ * 
+ */
 server.put("/PutShips/:id", async (req, res) => {
     console.log("put ships");
     const id = req.params.id;
@@ -134,11 +134,13 @@ server.put("/PutShips/:id", async (req, res) => {
 
 
 
-
+/** 
+ * initialisation of the database tables 
+ * if the tables don't exist, create them
+ * if they exist, just console log that they exist
+*/
 async function initialiseTables() {
-
     await pg.schema.hasTable('spaceShips').then(function (exists) {
-
         if (!exists) {
             pg.schema.createTable('spaceShips', function (table) {
 
