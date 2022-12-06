@@ -11,7 +11,7 @@ const pg = require('knex')({
     client: 'pg', // client type
     version: '15', // postgres version
     searchPath: ['knex', 'public'],
-    connection: process.env.PG_CONNECTION_STRING ? 
+    connection: process.env.PG_CONNECTION_STRING ?
         process.env.PG_CONNECTION_STRING : 'postgres://admin:admin@spaceShipsdb:5432/spaceShipsApi',
     port: 5432 // port of the postgres server
 
@@ -19,13 +19,11 @@ const pg = require('knex')({
 
 
 
-
-
 /** 
  * when the server starts, console log the port number and start the table initialisation
  */
- server.listen(PORT, () => {
-    console.log(`Server listening at ${PORT}`); 
+server.listen(PORT, () => {
+    console.log(`Server listening at ${PORT}`);
     initialiseTables(); // initialise the tables
 });
 
@@ -64,7 +62,7 @@ server.get("/ships", async (req, res) => {
 server.post("/PostShips", async (req, res) => {
     console.log("post ships");
     const {
-        name, 
+        name,
         motor,
         wings,
         reactor,
@@ -89,6 +87,9 @@ server.post("/PostShips", async (req, res) => {
         });
     } else {
         res.json("error");
+        console.log(`invalid input data for post ships to post 
+                    content correctly you need to provide a correct 
+                    name, motor, wings, reactor, shield, weapon, pilot`);
     }
 });
 
@@ -124,7 +125,7 @@ server.delete("/DeleteShips/:id", async (req, res) => {
  * @api {put} /spaceships/:id Update a spaceship
  * @param {String} id ID of the spaceship
  * @return retunrSpaceShip
-*/
+ */
 server.put("/PutShips/:id", async (req, res) => {
     console.log("put ships");
     const id = req.params.id;
@@ -164,7 +165,7 @@ server.put("/PutShips/:id", async (req, res) => {
  * initialisation of the database tables 
  * if the tables don't exist, create them
  * if they exist, just console log that they exist
-*/
+ */
 async function initialiseTables() {
     await pg.schema.hasTable('spaceShips').then(function (exists) {
         if (!exists) {
