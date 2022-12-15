@@ -70,3 +70,16 @@ h1.contentTitle {
 }
 
 
+/* Style the 2D drag and drop interface */
+#canvas {
+    border: 1px solid black;
+  }
+  #shapes {
+    display: flex;
+  }
+  .shape {
+    width: 50px;
+    height: 50px;
+    margin: 10px;
+    cursor: pointer;
+  }

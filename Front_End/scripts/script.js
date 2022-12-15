@@ -28,6 +28,10 @@ for (var i = 0; i < navBarBtns.length; i++) {
 
         this.classList.add("navSelected"); //add the navSelected class to the button that was clicked
     });
+
+
+
+    
 }
 
 

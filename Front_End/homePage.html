@@ -36,9 +36,31 @@
 
         <div id="spaceShipMakerDiv">
 
-
+            <canvas id="canvas" width="500" height="500"></canvas>
+            <div id="shapes">
+                <!-- The square shape -->
+                <div class="shape" id="square" draggable="true" >
+                  <svg width="50" height="50">
+                    <rect x="0" y="0" width="50" height="50" fill="red" />
+                  </svg>
+                </div>
           
-            <canvas id="canvas"></canvas>
+                <!-- The circle shape -->
+                <div class="shape" id="circle" draggable="true">
+                  <svg width="50" height="50">
+                    <circle cx="25" cy="25" r="25" fill="blue" />
+                  </svg>
+                </div>
+          
+                <!-- The triangle shape -->
+                <div class="shape" id="triangle" draggable="true" >
+                  <svg width="50" height="50">
+                    <polygon points="0,50 50,50 25,0" fill="green" />
+                  </svg>
+                </div>
+              </div>
+          
+            
         </div>
     </div>
 
