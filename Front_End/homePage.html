@@ -36,36 +36,96 @@
 
     <div id="spaceShipMakerDiv">
 
-      <h2 class="contentTitle">Shapes you can use to make your space ship</h2>
-      <!-- HTML for the SVG shapes -->
-      <!-- the square -->
-      <svg width="50" height="50">
-        <rect class="shapes" x="0" y="0" width="30" height="60" />
-      </svg>
+      <div id="spaceShipFormDiv">
 
-      <!-- the circle -->
-      <svg width="50" height="50">
-        <circle class="shapes" cx="25" cy="25" r="25" />
-      </svg>
+        <h2 class="contentTitle"> complete the form to make your space ship</h2>
+        <h2 class="contentTitle"> choose the shap of your space ship and the colors of the parts</h2>
 
-      <!-- the triangle -->
-      <svg width="50" height="50">
-        <polygon class="shapes" points="0,50 50,50 25,0" />
-      </svg>
+        <!-- space ship maker form -->
+        <form class="spaceShipForm">
 
-      <table>
-        <!-- here we will put the cases from the script -->
-      </table>
+          <!-- the name of the space ship -->
+          <div class="spaceShipName">
+            <h4>space ship name</h4>
+            <input type="text" id="spaceShipName" name="spaceShipName" placeholder="space ship name">
+          </div>
 
-      <!-- the generate button -->
-      <button class="generateShipButton" id="generateBtn">Generate</button>
+          <!-- the front head of the space ship -->
+          <div class="frontHead">
+            <h4>front head</h4>
+            <select class="geometryMesh" name="frontHeadShap" id="frontHeadShap">
+              <option value="cube">cube</option>
+              <option value="sphere">sphere</option>
+              <option value="cone">cone</option>
+            </select>
 
+            <!-- color picker for the front head -->
+            <input type="color" id="frontHeadColor" name="frontHeadColor" value="#000000">
+          </div>
+
+          <!-- the body of the space ship -->
+          <div class="spaceShipBody">
+            <h4>front head</h4>
+            <select class="geometryMesh" name="bodyShap" id="bodyShap">
+              <option value="cube">cube</option>
+              <option value="sphere">sphere</option>
+              <option value="cone">cone</option>
+            </select>
+
+            <!-- color picker for the body -->
+            <input type="color" id="bodyColor" name="bodyColor" value="#000000">
+          </div>
+
+          <!-- the left wing of the space ship -->
+          <div class="leftWing">
+            <h4>left wing</h4>
+            <select class="geometryMesh" name="leftWingShap" id="leftWingShap">
+              <option value="cube">cube</option>
+              <option value="sphere">sphere</option>
+              <option value="cone">cone</option>
+            </select>
+
+            <!-- color picker for the left wing -->
+            <input type="color" id="leftWingColor" name="leftWingColor" value="#000000">
+          </div>
+
+          <!-- the right wing of the space ship -->
+          <div class="rightWing">
+            <h4>right wing</h4>
+            <select class="geometryMesh" name="rightWingShap" id="rightWingShap">
+              <option value="cube">cube</option>
+              <option value="sphere">sphere</option>
+              <option value="cone">cone</option>
+            </select>
+
+            <!-- color picker for the right wing -->
+            <input type="color" id="rightWingColor" name="rightWingColor" value="#000000">
+          </div>
+
+          <!-- the back engine of the space ship -->
+          <div class="backEngine">
+            <h4>back engine</h4>
+            <select class="geometryMesh" name="backEngineShap" id="backEngineShap">
+              <option value="cube">cube</option>
+              <option value="sphere">sphere</option>
+              <option value="cone">cone</option>
+            </select>
+            <!-- color picker for the back engine -->
+            <input type="color" id="backEngineColor" name="backEngineColor" value="#000000">
+          </div>
+
+          <!-- the generate button -->
+          <button type="button" id="generateBtn">Generate Space Ship</button>
+
+        </form>
+
+      </div>
 
     </div>
 
     <!-- the ship wil appear here -->
     <div id="spaceShipDiv">
-      <canvas id="generatedSpaceShipCanva"></canvas>
+      <canvas id="generatedSpaceShipCanva" width="500" height="500"></canvas>
     </div>
   </div>
 

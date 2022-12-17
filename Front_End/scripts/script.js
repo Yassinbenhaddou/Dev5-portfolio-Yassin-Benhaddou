@@ -17,41 +17,19 @@ for (var i = 0; i < navBarBtns.length; i++) {
         for (var i = 0; i < navBarBtns.length; i++) {
             navBarBtns[i].classList.remove("navSelected"); //remove the class from the button
 
-            
+
             document.getElementById(navBarBtns[i].id + "Div").style.display = "none"; //hide the div
         }
 
         //show the div that corresponds to the button that was clicked
         document.getElementById(this.id + "Div").style.display = "block";
 
-       
+
 
         this.classList.add("navSelected"); //add the navSelected class to the button that was clicked
     });
 
 
 
-    
+
 }
-
-
-// add cases to the table
-
-const table = document.querySelector("table");
-
-for (let i = 0; i < 10; i++) {
-  const row = document.createElement("tr");
-  for (let j = 0; j < 10; j++) {
-    const cell = document.createElement("td");
-    row.appendChild(cell);
-  }
-  table.appendChild(row);
-}
-
-
-
-import { threeJsApplication } from './threeJsFile.js'; //import the threeJsFile.js file 
-
-threeJsApplication.init(); //call the init function from the threeJsFile.js file
-
-

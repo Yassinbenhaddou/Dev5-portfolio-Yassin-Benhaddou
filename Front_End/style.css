@@ -32,6 +32,13 @@ nav ul {
 
 }
 
+h2 {
+    color: rgb(235, 235, 235);
+    font-size: 30px;
+    font-weight: 600;
+    padding: 20px;
+}
+
 nav ul li {
     display: inline;
     padding: 10px;
@@ -63,68 +70,71 @@ h1.contentTitle {
 
 }
 
-/*center the table*/
-#spaceShipMakerDiv {
-    text-align: center;
+
+/* CSS for the space ship maker form */
+
+.spaceShipForm div.spaceShipName input {
+    margin: 10px;
+    padding: 10px;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: 1px solid rgb(235, 235, 235);
+    background-color: rgb(235, 235, 235);
+    color: rgb(0, 0, 0);
+}
+
+.spaceShipForm {
+
     margin: 50px;
-}
-
-#spaceShipMakerDiv h2 {
-   
-    color: rgb(235, 235, 235);
-    text-align: left;
-}
-
-
-/* Style the 2D  interface */
-
-#spaceShipMakerDiv table {
-    margin: 0 auto;
-    border-collapse: collapse;
-}
-
-table {
-    border-collapse: collapse;
-}
-
-td {
-    width: 50px;
-    height: 50px;
-    border: 1px solid rgb(252, 252, 252);
-}
-
-svg {
-    cursor: pointer;
-}
-
-rect {
-    fill: rgb(255, 65, 65);
-    stroke: rgb(251, 251, 251);
-}
-
-circle {
-    fill: rgb(109, 52, 255);
-    stroke: rgb(251, 251, 251);
-}
-
-polygon {
-    fill: rgb(65, 255, 189);
-    stroke: rgb(251, 251, 251);
-}
-
-
-.generateShipButton {
-    background-color: rgb(122, 65, 255);
     color: rgb(235, 235, 235);
     font-size: 20px;
     font-weight: 600;
+    padding: 20px;
+
+}
+
+/* input field style */
+.spaceShipForm .geometryMesh {
+    margin: 10px;
     padding: 10px;
-    border: none;
+    font-size: 20px;
+    font-weight: 600;
     border-radius: 5px;
-    cursor: pointer;
+    border: 1px solid rgb(235, 235, 235);
+    background-color: rgb(235, 235, 235);
+    color: rgb(0, 0, 0);
 }
 
-.generateShipButton:hover {
+
+.spaceShipForm .geometryMesh:hover {
     background-color: rgb(183, 154, 216);
+    color: rgb(235, 235, 235);
 }
 
+
+.spaceShipForm .geometryMesh:active {
+    background-color: rgb(183, 154, 216);
+    color: rgb(235, 235, 235);
+}
+
+/*CSS for the space ship maker form buttons*/
+.spaceShipForm button {
+
+    margin: 10px;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
+    border-radius: 5px;
+    color: rgb(0, 0, 0);
+    border: 1px solid rgb(235, 235, 235);
+    background-color: rgb(235, 235, 235);
+
+}
+
+/* hover button effect */
+.spaceShipForm button:hover {
+    background-color: rgb(183, 154, 216);
+    color: rgb(235, 235, 235);
+}

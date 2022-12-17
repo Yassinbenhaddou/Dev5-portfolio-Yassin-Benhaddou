@@ -78,120 +78,16 @@ export const threeJsApplication = {
         }
         animate(); //call the animate function
 
-        /**Drag and drop test  */
 
 
 
-        /*
-        *i want to make a three js app that generate 3D space ships using basic three js forms i want min 3 basic three.js form like box, sphere and cone.
-        the user generate the 3D space ship from a 2d interface, the 2d interface contain a table 10 x 10 and 3 2d svg shaps like rect, circle and triangle. The user can drag and drop the shaps on the chosen case of the table, the chosen case get the shap that the user has droped in when the user is done he can click on the generate button the  we show the generated ship on a aparte canvas 
-         */
-
-        /* 
-        
-i have found another alternative can you help me using this my alternative is to have the 2d elments using svg and  baisc html elements the user can drag and drop to place the 2d elments where he want on the canvas 
-
-          * */
-
-        this.dragAndDropTable();
+        this.getFormInfoAndSendTosever();
 
     },
-    dragAndDropTable: function () {
-        console.log("drag and drop table");
+    getFormInfoAndSendTosever: function () {
 
-        // get the table cells and SVG shapes
-        const cells = document.querySelectorAll("td");
-        const shapes = document.querySelectorAll("svg");
-
-        // make the shapes draggable
-        shapes.forEach(shape => {
-            shape.addEventListener("dragstart", e => {
-                // set the data that will be transferred with the drag event
-                e.dataTransfer.setData("shape", shape.innerHTML);
-            });
-        });
-
-        // make the table cells droppable
-        cells.forEach(cell => {
-            cell.addEventListener("dragover", e => {
-                // allow the drop event to be triggered
-                e.preventDefault();
-                //console.log("drag over");
-            });
-            cell.addEventListener("drop", e => {
-                // get the data transferred with the drag event
-                const html = e.dataTransfer.getData("shape");
-                console.log(html);
-
-                //get the cell position
-                const cellLeft = cell.offsetLeft;
-                const cellTop = cell.offsetTop;
-
-                //create a new svg element and set the position of the svg element
-                const shapeToDraw = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-
-                shapeToDraw.innerHTML = html;
-
-                shapeToDraw.style.left = `${cellLeft}px`;
-                shapeToDraw.style.top = `${cellTop}px`;
-
-                shapeToDraw.setAttribute("transform", "translate(0,0)");
-                //add the shape to the table
-                cell.appendChild(shapeToDraw);
-                // set the HTML of the cell to the transferred data
-                // cell.innerHTML = html;
-            });
-        });
-
-        document.querySelector("#generateBtn").addEventListener("click", e => {
-            console.log("generate");
-            this.generate3DSpaceShip();
-        });
-
-
-
-    },
-    generate3DSpaceShip: function () {
-
-        // create the scene, camera, and renderer
-        const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0x03030);
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer( {
-            canvas: document.querySelector("#generatedSpaceShipCanva"),
-        });
-        const material = new THREE.MeshBasicMaterial({color: 0x8280FF});
-        renderer.setSize(window.innerWidth /3, window.innerHeight/3);
-        document.body.appendChild(renderer.domElement);
-
-        // get the table cells
-        const cells = document.querySelectorAll("td");
-
-        // create the 3D forms for each cell
-        cells.forEach(cell => {
-            // get the HTML of the cell
-            const html = cell.innerHTML;
-            // create the corresponding 3D form
-
-            let geometry;
-            if (html === '<rect x="10" y="10" width="30" height="30"></rect>') {
-                geometry = new THREE.CubeGeometry(0.5, 0.5, 0.5);
-            } else if (html === '<circle class="shapes" cx="25" cy="25" r="25"></circle>') {
-                geometry = new THREE.SphereGeometry(0.3, 0.3, 0.3);
-            } else if (html === '<polygon class="shapes" points="0,50 50,50 25,0"></polygon>') {
-                geometry = new new THREE.ConeGeometry(0.5, 0.5, 0.5);
-            }
-            console.log(geometry);
-            // create a mesh for the form and add it to the scene
-            const mesh = new THREE.Mesh(geometry, material);
-            scene.add(mesh);
-        });
-
-        // render the scene
-        renderer.render(scene, camera);
 
     }
 
+
 }
-
-
