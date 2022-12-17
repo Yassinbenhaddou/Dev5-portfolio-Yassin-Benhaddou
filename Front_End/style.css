@@ -69,17 +69,62 @@ h1.contentTitle {
     margin: 50px;
 }
 
+#spaceShipMakerDiv h2 {
+   
+    color: rgb(235, 235, 235);
+    text-align: left;
+}
 
-/* Style the 2D drag and drop interface */
-#canvas {
-    border: 1px solid black;
-  }
-  #shapes {
-    display: flex;
-  }
-  .shape {
+
+/* Style the 2D  interface */
+
+#spaceShipMakerDiv table {
+    margin: 0 auto;
+    border-collapse: collapse;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+td {
     width: 50px;
     height: 50px;
-    margin: 10px;
+    border: 1px solid rgb(252, 252, 252);
+}
+
+svg {
     cursor: pointer;
-  }
+}
+
+rect {
+    fill: rgb(255, 65, 65);
+    stroke: rgb(251, 251, 251);
+}
+
+circle {
+    fill: rgb(109, 52, 255);
+    stroke: rgb(251, 251, 251);
+}
+
+polygon {
+    fill: rgb(65, 255, 189);
+    stroke: rgb(251, 251, 251);
+}
+
+
+.generateShipButton {
+    background-color: rgb(122, 65, 255);
+    color: rgb(235, 235, 235);
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.generateShipButton:hover {
+    background-color: rgb(183, 154, 216);
+}
+

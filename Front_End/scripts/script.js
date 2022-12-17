@@ -35,6 +35,19 @@ for (var i = 0; i < navBarBtns.length; i++) {
 }
 
 
+// add cases to the table
+
+const table = document.querySelector("table");
+
+for (let i = 0; i < 10; i++) {
+  const row = document.createElement("tr");
+  for (let j = 0; j < 10; j++) {
+    const cell = document.createElement("td");
+    row.appendChild(cell);
+  }
+  table.appendChild(row);
+}
+
 
 
 import { threeJsApplication } from './threeJsFile.js'; //import the threeJsFile.js file 

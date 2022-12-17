@@ -2,81 +2,86 @@
 <html lang="en">
 
 <head>
-    <script src="https://unpkg.com/three@0.119.1/build/three.min.js"></script>
-    <script type="module" src="scripts/script.js"></script>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/three@0.119.1/build/three.min.js"></script>
+  <script type="module" src="scripts/script.js"></script>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
 </head>
 
 <body>
 
-    <header>
-        <h1>Space ship Maker </h1>
-    </header>
+  <header>
+    <h1>Space ship Maker </h1>
+  </header>
 
-    <!-- the navigation bar user can switch between list and space ship maker -->
-    <nav>
-        <ul>
-            <li><a id="spaceShipMakerId" class="navSelected navBtns">Space Ship Maker</a></li>
-            <li><a id="spaceShipsListId" class=" navBtns">Space Ships List</a></li>
-        </ul>
-    </nav>
-
-
-    <!-- here the user can make a space ship and add publish it -->
-    <div id="spaceShipMakerIdDiv">
-        <h1 class="contentTitle">Space Ship Maker</h1>
-
-        <!-- the space ship maker form -->
+  <!-- the navigation bar user can switch between list and space ship maker -->
+  <nav>
+    <ul>
+      <li><a id="spaceShipMakerId" class="navSelected navBtns">Space Ship Maker</a></li>
+      <li><a id="spaceShipsListId" class=" navBtns">Space Ships List</a></li>
+    </ul>
+  </nav>
 
 
-        <div id="spaceShipMakerDiv">
+  <!-- here the user can make a space ship and add publish it -->
+  <div id="spaceShipMakerIdDiv">
+    <h1 class="contentTitle">Space Ship Maker</h1>
 
-            <canvas id="canvas" width="500" height="500"></canvas>
-            <div id="shapes">
-                <!-- The square shape -->
-                <div class="shape" id="square" draggable="true" >
-                  <svg width="50" height="50">
-                    <rect x="0" y="0" width="50" height="50" fill="red" />
-                  </svg>
-                </div>
-          
-                <!-- The circle shape -->
-                <div class="shape" id="circle" draggable="true">
-                  <svg width="50" height="50">
-                    <circle cx="25" cy="25" r="25" fill="blue" />
-                  </svg>
-                </div>
-          
-                <!-- The triangle shape -->
-                <div class="shape" id="triangle" draggable="true" >
-                  <svg width="50" height="50">
-                    <polygon points="0,50 50,50 25,0" fill="green" />
-                  </svg>
-                </div>
-              </div>
-          
-            
-        </div>
+    <!-- the space ship maker form -->
+
+
+    <div id="spaceShipMakerDiv">
+
+      <h2 class="contentTitle">Shapes you can use to make your space ship</h2>
+      <!-- HTML for the SVG shapes -->
+      <!-- the square -->
+      <svg width="50" height="50">
+        <rect class="shapes" x="0" y="0" width="30" height="60" />
+      </svg>
+
+      <!-- the circle -->
+      <svg width="50" height="50">
+        <circle class="shapes" cx="25" cy="25" r="25" />
+      </svg>
+
+      <!-- the triangle -->
+      <svg width="50" height="50">
+        <polygon class="shapes" points="0,50 50,50 25,0" />
+      </svg>
+
+      <table>
+        <!-- here we will put the cases from the script -->
+      </table>
+
+      <!-- the generate button -->
+      <button class="generateShipButton" id="generateBtn">Generate</button>
+
+
     </div>
 
-    <!-- the space Ships List Div  -->
-    <!-- This div is hidden by default -->
-    <div id="spaceShipsListIdDiv" style="display: none;">
-
-        <h1 class="contentTitle">Space Ships List</h1>
-
-
-
-        <div id="spaceShipsListDiv">
-            <canvas id="mySpaceShipCanva"></canvas>
-        </div>
-
+    <!-- the ship wil appear here -->
+    <div id="spaceShipDiv">
+      <canvas id="generatedSpaceShipCanva"></canvas>
     </div>
+  </div>
+
+  <!-- the space Ships List Div  -->
+  <!-- This div is hidden by default -->
+  <div id="spaceShipsListIdDiv" style="display: none;">
+
+    <h1 class="contentTitle">Space Ships List</h1>
+
+
+
+    <div id="spaceShipsListDiv">
+      <canvas id="mySpaceShipCanva"></canvas>
+    </div>
+
+  </div>
 
 </body>
 
