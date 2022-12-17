@@ -78,14 +78,41 @@ export const threeJsApplication = {
         }
         animate(); //call the animate function
 
-
-
-
-        this.getFormInfoAndSendTosever();
-
     },
     getFormInfoAndSendTosever: function () {
 
+        // get the space ship form info
+
+        const spaceShipName = document.getElementById("spaceShipName").value;
+
+        const frontHead = [document.getElementById("frontHeadShap").value,
+            document.getElementById("frontHeadColor").value
+        ];
+
+        const body = [document.getElementById("frontHeadShap").value,
+            document.getElementById("bodyColor").value
+        ];
+
+        const backPart = [document.getElementById("backEngineShap").value,
+            document.getElementById("backEngineColor").value
+        ];
+
+        const leftWing = [document.getElementById("leftWingShap").value,
+            document.getElementById("leftWingColor").value
+        ];
+
+        const rightWing = [document.getElementById("rightWingShap").value,
+            document.getElementById("rightWingColor").value
+        ];
+
+        console.log(spaceShipName);
+        console.log(frontHead);
+        console.log(body);
+        console.log(backPart);
+        console.log(leftWing);
+        console.log(rightWing);
+        
+        // send the space ship form info to the server
 
     }
 

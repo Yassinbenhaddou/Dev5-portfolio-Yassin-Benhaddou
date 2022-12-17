@@ -17,19 +17,36 @@ for (var i = 0; i < navBarBtns.length; i++) {
         for (var i = 0; i < navBarBtns.length; i++) {
             navBarBtns[i].classList.remove("navSelected"); //remove the class from the button
 
-
+            
             document.getElementById(navBarBtns[i].id + "Div").style.display = "none"; //hide the div
         }
 
         //show the div that corresponds to the button that was clicked
         document.getElementById(this.id + "Div").style.display = "block";
 
-
+       
 
         this.classList.add("navSelected"); //add the navSelected class to the button that was clicked
     });
 
 
 
-
+    
 }
+
+
+
+
+
+
+
+import { threeJsApplication } from './threeJsFile.js'; //import the threeJsFile.js file 
+
+threeJsApplication.init(); //call the init function from the threeJsFile.js file
+
+
+// generate button trigger
+document.getElementById("generateBtn").addEventListener("click", function (e) {
+
+    threeJsApplication.getFormInfoAndSendTosever();
+});
