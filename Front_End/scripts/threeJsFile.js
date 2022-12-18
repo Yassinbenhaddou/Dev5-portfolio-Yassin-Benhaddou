@@ -106,12 +106,22 @@ export const threeJsApplication = {
         ];
 
 
+        // send the space ship form info to the server
+        console.log(spaceShipName);
+        console.log(frontHead);
+        console.log(body);
+        console.log(backPart);
+        console.log(leftWing);
+        console.log(rightWing);
+
+
+
 
         this.get3DspaceShipFromServer(spaceShipName, frontHead, body, backPart, leftWing, rightWing);
 
-        // generate the 3d space ship
+       
 
-        // send the space ship form info to the server
+        
 
     },
     get3DspaceShipFromServer: function (spaceShipName, frontHead, body, backPart, leftWing, rightWing) {
@@ -125,12 +135,7 @@ export const threeJsApplication = {
 
     },
     generate3DspaceShip: function (spaceShipName, frontHead, body, backPart, leftWing, rightWing) {
-        console.log(spaceShipName);
-        console.log(frontHead);
-        console.log(body);
-        console.log(backPart);
-        console.log(leftWing);
-        console.log(rightWing);
+        
 
         // create a new Three.js scene
         const scene = new THREE.Scene();
@@ -147,13 +152,17 @@ export const threeJsApplication = {
         });
 
         // Set the size of the renderer
-        renderer.setSize(window.innerWidth / 4, window.innerHeight / 4);
+        renderer.setSize(window.innerWidth / 1.5, window.innerHeight / 1.5);
 
         // Create a new Three.js cube
         const cubeGeometryMesh = new THREE.CubeGeometry(0.5, 0.5, 0.5);
         const sphereGeometryMesh = new THREE.SphereGeometry(0.3, 0.3, 0.3);
         const coneGeometryMesh = new THREE.ConeGeometry(0.5, 0.5, 0.5);
         const cylinderGeometryMesh = new THREE.CylinderGeometry(0.5, 0.5, 0.5, 0.5);
+
+        //log witch type of var is the frontHead
+        console.log(typeof frontHead);
+        console.log(typeof frontHead[1]);
 
         //remove the # from the color code and convert it to hex
         const frontHeadColor = parseInt(frontHead[1].replace("#", "0x"));

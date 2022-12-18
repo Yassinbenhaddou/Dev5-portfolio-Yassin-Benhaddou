@@ -3,6 +3,8 @@ const express = require('express');
 
 const router = express.Router();
 
+const {changeColorModelFromHexToX0Rgb} = require('../common/changeColorModelFunction.js');
+
 router.use(express.json());
 
 router.get('/', (req, res) => {
@@ -40,6 +42,9 @@ const pg = require('knex')({
  
 });
 
+
+
+
 /** 
  * template retunrSpaceShip:
  *  id: string - id of the spaceship
@@ -55,25 +60,36 @@ const pg = require('knex')({
  */
 router.post("/PostShips", async (req, res) => {
     console.log("post ships");
+    
     const {
         name,
-        motor,
-        wings,
-        reactor,
-        shield,
-        weapon,
-        pilot
+        frontHead,
+        body,
+        backPart,
+        leftWing,
+        rightWing,
+        frontHeadColor,
+        bodyColor,
+        backPartColor,
+        leftWingColor,
+        rightWingColor
+        
     } = req.body;
-    if (name, motor, wings, reactor, shield, weapon, pilot) {
+    if (name && frontHead && body && backPart && leftWing && rightWing && frontHeadColor && bodyColor && backPartColor && leftWingColor && rightWingColor) {
 
         await pg("spaceShips").insert({
-            name: name,
-            motor: motor,
-            wings: wings,
-            reactor: reactor,
-            shield: shield,
-            weapon: weapon,
-            pilot: pilot
+            name,
+            frontHead,
+            body,
+            backPart,
+            leftWing,
+            rightWing,
+            frontHeadColor : changeColorModelFromHexToX0Rgb(frontHeadColor),
+            bodyColor : changeColorModelFromHexToX0Rgb(bodyColor),
+            backPartColor : changeColorModelFromHexToX0Rgb(backPartColor),
+            leftWingColor : changeColorModelFromHexToX0Rgb(leftWingColor),
+            rightWingColor : changeColorModelFromHexToX0Rgb(rightWingColor)
+            
         }).then(data => {
             res.json(data);
         }).catch(err => {
@@ -83,7 +99,8 @@ router.post("/PostShips", async (req, res) => {
         res.json("error");
         console.log(`invalid input data for post ships to post 
                     content correctly you need to provide a correct 
-                    name, motor, wings, reactor, shield, weapon, pilot`);
+                    name, frontHead, body, backPart, leftWing, rightWing, 
+                    frontHeadColor, bodyColor, backPartColor, leftWingColor, rightWingColor`);
     }
 });
 
@@ -94,7 +111,7 @@ router.post("/PostShips", async (req, res) => {
  * @param {string} id - the id of the ship to be deleted
  */
 router.delete("/DeleteShips/:id", async (req, res) => {
-    console.log("delete ships");
+    console.log("delete ship");
     const id = req.params.id;
     await pg("spaceShips").where("id", id).del().then(data => {
         res.json(data);
@@ -102,7 +119,6 @@ router.delete("/DeleteShips/:id", async (req, res) => {
         res.json(err);
     });
 });
-
 
 
 /**
@@ -125,22 +141,31 @@ router.put("/PutShips/:id", async (req, res) => {
     const id = req.params.id;
     const {
         name,
-        motor,
-        wings,
-        reactor,
-        shield,
-        weapon,
-        pilot
+        frontHead,
+        body,
+        backPart,
+        leftWing,
+        rightWing,
+        frontHeadColor,
+        bodyColor,
+        backPartColor,
+        leftWingColor,
+        rightWingColor
+
     } = req.body;
     if (name, motor, wings, reactor, shield, weapon, pilot) {
         await pg("spaceShips").where("id", id).update({
-            name: name,
-            motor: motor,
-            wings: wings,
-            reactor: reactor,
-            shield: shield,
-            weapon: weapon,
-            pilot: pilot
+            name,
+            frontHead,
+            body,
+            backPart,
+            leftWing,
+            rightWing,
+            frontHeadColor : changeColorModelFromHexToX0Rgb(frontHeadColor),
+            bodyColor : changeColorModelFromHexToX0Rgb(bodyColor),
+            backPartColor : changeColorModelFromHexToX0Rgb(backPartColor),
+            leftWingColor : changeColorModelFromHexToX0Rgb(leftWingColor),
+            rightWingColor : changeColorModelFromHexToX0Rgb(rightWingColor)
         }).then(data => {
             res.json(data);
         }).catch(err => {

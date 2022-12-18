@@ -28,7 +28,6 @@ const pg = require('knex')({
 
 });
 
-
 /** 
  * initialisation of the database tables 
  * if the tables don't exist, create them
@@ -42,12 +41,18 @@ async function initialiseTables() {
                 table.increments('id').primary();
 
                 table.string('name');
-                table.string('motor');
-                table.string('wings');
-                table.string('reactor');
-                table.string('shield');
-                table.string('weapon');
-                table.string('pilot');
+                table.string('frontHead');
+                table.string('body');
+                table.string('backPart');
+                table.string('leftWing'); 
+                table.string('rightWing');
+                //create a array of for the colors 
+                table.string('frontHeadColor');
+                table.string('bodyColor');
+                table.string('backPartColor');
+                table.string('leftWingColor');
+                table.string('rightWingColor');
+
 
             }).then(async function () {
 
