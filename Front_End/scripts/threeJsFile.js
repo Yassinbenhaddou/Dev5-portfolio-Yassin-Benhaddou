@@ -114,14 +114,43 @@ export const threeJsApplication = {
         console.log(leftWing);
         console.log(rightWing);
 
+       let result = fetch("http://localhost/PostShips", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+
+                name: spaceShipName,
+                frontHead: frontHead[0],
+                body: body[0],
+                backPart: backPart[0],
+                leftWing: leftWing[0],
+                rightWing: rightWing[0],
+                frontHeadColor: frontHead[1],
+                bodyColor: body[1],
+                backPartColor: backPart[1],
+                leftWingColor: leftWing[1],
+                rightWingColor: rightWing[1]
+
+            })
+        }).then(data => {
+            return data.json();
+        })
+        result.then(data => {
+            console.log(data)
+
+
+        })
 
 
 
-        this.get3DspaceShipFromServer(spaceShipName, frontHead, body, backPart, leftWing, rightWing);
 
-       
+        // this.get3DspaceShipFromServer(spaceShipName, frontHead, body, backPart, leftWing, rightWing);
 
-        
+
+
+
 
     },
     get3DspaceShipFromServer: function (spaceShipName, frontHead, body, backPart, leftWing, rightWing) {
@@ -135,7 +164,7 @@ export const threeJsApplication = {
 
     },
     generate3DspaceShip: function (spaceShipName, frontHead, body, backPart, leftWing, rightWing) {
-        
+
 
         // create a new Three.js scene
         const scene = new THREE.Scene();
@@ -202,49 +231,49 @@ export const threeJsApplication = {
 
         var shipRightWing = new THREE.Mesh(cubeGeometryMesh, rightWingMaterial);
 
-        if(frontHead[0] == "cone"){
+        if (frontHead[0] == "cone") {
             shipFrontHead = new THREE.Mesh(coneGeometryMesh, frontHeadMaterial);
-        }else if(frontHead[0] == "cube"){
+        } else if (frontHead[0] == "cube") {
             shipFrontHead = new THREE.Mesh(cubeGeometryMesh, frontHeadMaterial);
-        }else if(frontHead[0] == "sphere"){
+        } else if (frontHead[0] == "sphere") {
             shipFrontHead = new THREE.Mesh(sphereGeometryMesh, frontHeadMaterial);
         }
 
-        if(body[0] == "cone"){
+        if (body[0] == "cone") {
             shipBody = new THREE.Mesh(coneGeometryMesh, bodyMaterial);
-        }else if(body[0] == "cube"){
+        } else if (body[0] == "cube") {
             shipBody = new THREE.Mesh(cubeGeometryMesh, bodyMaterial);
-        }else if(body[0] == "sphere"){
+        } else if (body[0] == "sphere") {
             shipBody = new THREE.Mesh(sphereGeometryMesh, bodyMaterial);
         }
 
-        if(backPart[0] == "cone"){
+        if (backPart[0] == "cone") {
             shipBackPart = new THREE.Mesh(coneGeometryMesh, backPartMaterial);
-        }else if(backPart[0] == "cube"){
+        } else if (backPart[0] == "cube") {
             shipBackPart = new THREE.Mesh(cubeGeometryMesh, backPartMaterial);
-        }else if(backPart[0] == "sphere"){
+        } else if (backPart[0] == "sphere") {
             shipBackPart = new THREE.Mesh(sphereGeometryMesh, backPartMaterial);
-        }else if(backPart[0] == "cylinder"){
+        } else if (backPart[0] == "cylinder") {
             shipBackPart = new THREE.Mesh(cylinderGeometryMesh, backPartMaterial);
         }
 
-        if(leftWing[0] == "cone"){
+        if (leftWing[0] == "cone") {
             shipLeftWing = new THREE.Mesh(coneGeometryMesh, leftWingMaterial);
-        }else if(leftWing[0] == "cube"){
+        } else if (leftWing[0] == "cube") {
             shipLeftWing = new THREE.Mesh(cubeGeometryMesh, leftWingMaterial);
-        }else if(leftWing[0] == "sphere"){
+        } else if (leftWing[0] == "sphere") {
             shipLeftWing = new THREE.Mesh(sphereGeometryMesh, leftWingMaterial);
         }
 
-        if(rightWing[0] == "cone"){
+        if (rightWing[0] == "cone") {
             shipRightWing = new THREE.Mesh(coneGeometryMesh, rightWingMaterial);
-        }else if(rightWing[0] == "cube"){
+        } else if (rightWing[0] == "cube") {
             shipRightWing = new THREE.Mesh(cubeGeometryMesh, rightWingMaterial);
-        }else if(rightWing[0] == "sphere"){
+        } else if (rightWing[0] == "sphere") {
             shipRightWing = new THREE.Mesh(sphereGeometryMesh, rightWingMaterial);
         }
 
-        
+
 
 
         const geometryGroup = new THREE.Group();
@@ -275,7 +304,7 @@ export const threeJsApplication = {
         shipRightWing.position.y = 0;
         shipRightWing.position.z = 0;
 
-        
+
 
         // Add the cube to the scene
         scene.add(geometryGroup);
@@ -295,7 +324,7 @@ export const threeJsApplication = {
             geometryGroup.rotation.x += 0.005; //rotate the cube on the z axis (you can change the value to make it rotate faster or slower)
             renderer.render(scene, camera);
         }
-        animate(); 
+        animate();
 
     }
 
