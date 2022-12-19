@@ -4,60 +4,141 @@
 export const threeJsApplication = {
     init: function () {
 
+        // get the space ships from the server and display them in the spaceShipsListDiv
+
+        fetch("http://localhost/ships")
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                this.displaySpaceShips(data);
+            });
+    },
+    displaySpaceShips: function (data) {
+        var spaceShipsListDiv = document.getElementById("spaceShipsListDiv");
+
+        //make a canvas for each space ship and add it to the spaceShipsListDiv
+        for (var i = 0; i < data.length; i++) {
+
+            spaceShipsListDiv.innerHTML += `
+                 <div class="spaceShipContainer">
+                    <h2 class="contentTitle">${data[i].name}</h2>
+                    <button class="deleteBtn" id="deleteBtn${data[i].id}">Delete</button>
+                    <editBtn class="editBtn" id="editBtn${data[i].id}">Edit</editBtn>
+                    <canvas id="canvas${data[i].id}"></canvas>
+                 </div>
+                    `;
+            //generate the space ship scene
+            this.generateSpaceShipScene(data[i]);
+        }
+    },
+    generateSpaceShipScene: function (spaceShipToGenerate) {
+
+        // console.log(spaceShipToGenerate);
+
+
         // create a new Three.js scene
         const scene = new THREE.Scene();
 
         // set the background color of the scene
-        scene.background = new THREE.Color(0x03030);
+        scene.background = new THREE.Color(0x13121a);
 
         // add a camera perspective to the scene
         const camera = new THREE.PerspectiveCamera(25, window.innerWidth / window.innerHeight, 0.1, 500);
 
         // Create a new Three.js renderer
         const renderer = new THREE.WebGLRenderer({
-            canvas: document.querySelector("#mySpaceShipCanva")
+            canvas: document.querySelector(`#canvas${spaceShipToGenerate.id}`)
         });
 
+
+        // push all the parts of the space ship into an array
+        var spaceShipParts = [];
+        spaceShipParts.push(spaceShipToGenerate.frontHead);
+        spaceShipParts.push(spaceShipToGenerate.body);
+        spaceShipParts.push(spaceShipToGenerate.backPart);
+        spaceShipParts.push(spaceShipToGenerate.leftWing);
+        spaceShipParts.push(spaceShipToGenerate.rightWing);
+        console.log(spaceShipParts);
+
+        // push all the colors of the space ship into an array
+        var spaceShipColors = [];
+        spaceShipColors.push(spaceShipToGenerate.frontHeadColor);
+        spaceShipColors.push(spaceShipToGenerate.bodyColor);
+        spaceShipColors.push(spaceShipToGenerate.backPartColor);
+        spaceShipColors.push(spaceShipToGenerate.leftWingColor);
+        spaceShipColors.push(spaceShipToGenerate.rightWingColor);
+        //  console.log(spaceShipColors);
+
+        /*  shipFrontHead.position.x = 0;
+          shipFrontHead.position.y = 0.5;
+          shipFrontHead.position.z = 0;
+
+          shipBody.position.x = 0;
+          shipBody.position.y = 0;
+          shipBody.position.z = 0;
+
+          shipBackPart.position.x = 0;
+          shipBackPart.position.y = -0.5;
+          shipBackPart.position.z = 0;
+
+          shipLeftWing.position.x = -0.5;
+          shipLeftWing.position.y = 0;
+          shipLeftWing.position.z = 0;
+
+          shipRightWing.position.x = 0.5;
+          shipRightWing.position.y = 0;
+          shipRightWing.position.z = 0;*/
+
+        var shipsXParts = [0, 0, 0, -0.5, 0.5];
+        var shipsYParts = [0.5, 0, -0.5, 0, 0];
+        var shipsZParts = [0, 0, 0, 0, 0];
+
+
         // Set the size of the renderer
-        renderer.setSize(window.innerWidth / 4, window.innerHeight / 4);
+        renderer.setSize(window.innerWidth / 2, window.innerHeight / 2);
 
         // Create a new Three.js cube
         const cubeGeometryMesh = new THREE.CubeGeometry(0.5, 0.5, 0.5);
         const sphereGeometryMesh = new THREE.SphereGeometry(0.3, 0.3, 0.3);
         const coneGeometryMesh = new THREE.ConeGeometry(0.5, 0.5, 0.5);
+        const cylinderGeometryMesh = new THREE.CylinderGeometry(0.5, 0.5, 0.5, 0.5);
+
+        // create a new geometry group
+        var geometryGroup = new THREE.Group();
+
+        var material;
+        var part;
+
+        // for each part of the space ship,
+        for (var i = 0; i < spaceShipParts.length; i++) {
+            // create a new material for it
+            part = new THREE.MeshBasicMaterial({
+                color: spaceShipColors[i]
+            });
+
+            console.log(spaceShipParts[i]);
+            //check what type of geometry the part is and add the mesh to the the part variable
+            if (spaceShipParts[i] == "cone") {
+                part = new THREE.Mesh(coneGeometryMesh, material);
+            } else if (spaceShipParts[i] == "cube") {
+                part = new THREE.Mesh(cubeGeometryMesh, material);
+            } else if (spaceShipParts[i] == "sphere") {
+                part = new THREE.Mesh(sphereGeometryMesh, material);
+            } else if (spaceShipParts[i] == "cylinder") {
+                part = new THREE.Mesh(cylinderGeometryMesh, material);
+            }
+
+            // set the position of the part
+            part.position.x = shipsXParts[i];
+            part.position.y = shipsYParts[i];
+            part.position.z = shipsZParts[i];
+
+            // add the part to the geometry group
+            geometryGroup.add(part);
+
+        }
 
 
-        const material = new THREE.MeshBasicMaterial({
-            color: 0x8280FF
-        });
-
-
-
-
-        const cube = new THREE.Mesh(cubeGeometryMesh, material);
-
-        const sphere = new THREE.Mesh(sphereGeometryMesh, material);
-
-        const cone = new THREE.Mesh(coneGeometryMesh, material);
-
-        const geometryGroup = new THREE.Group();
-
-        geometryGroup.add(cube);
-        geometryGroup.add(sphere);
-        geometryGroup.add(cone);
-
-
-        cube.position.x = 0;
-        cube.position.y = 0;
-        cube.position.z = 0;
-
-        sphere.position.x = 0;
-        sphere.position.y = -0.8;
-        sphere.position.z = 0;
-
-        cone.position.x = 0;
-        cone.position.y = 0.7;
-        cone.position.z = 0;
 
         // Add the cube to the scene
         scene.add(geometryGroup);
@@ -74,9 +155,10 @@ export const threeJsApplication = {
             // geometryGroup.rotation.x += 0.005; //rotate the cube on the x axis (you can change the value to make it rotate faster or slower)
             geometryGroup.rotation.y += 0.005; //rotate the cube on the y axis (you can change the value to make it rotate faster or slower)
             geometryGroup.rotation.z += 0.005; //rotate the cube on the z axis (you can change the value to make it rotate faster or slower)
+            geometryGroup.rotation.x += 0.005; //rotate the cube on the z axis (you can change the value to make it rotate faster or slower)
             renderer.render(scene, camera);
         }
-        animate(); //call the animate function
+        animate();
 
     },
     getFormInfoAndSendTosever: function () {
@@ -114,43 +196,33 @@ export const threeJsApplication = {
         console.log(leftWing);
         console.log(rightWing);
 
-       let result = fetch("http://localhost/PostShips", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
+        fetch("http://localhost/PostShips", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: spaceShipName,
+                    frontHead: frontHead[0],
+                    body: body[0],
+                    backPart: backPart[0],
+                    leftWing: leftWing[0],
+                    rightWing: rightWing[0],
+                    frontHeadColor: frontHead[1],
+                    bodyColor: body[1],
+                    backPartColor: backPart[1],
+                    leftWingColor: leftWing[1],
+                    rightWingColor: rightWing[1]
 
-                name: spaceShipName,
-                frontHead: frontHead[0],
-                body: body[0],
-                backPart: backPart[0],
-                leftWing: leftWing[0],
-                rightWing: rightWing[0],
-                frontHeadColor: frontHead[1],
-                bodyColor: body[1],
-                backPartColor: backPart[1],
-                leftWingColor: leftWing[1],
-                rightWingColor: rightWing[1]
-
+                })
             })
-        }).then(data => {
-            return data.json();
-        })
-        result.then(data => {
-            console.log(data)
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error(error));
 
-
-        })
-
-
-
+        console.log("done");
 
         // this.get3DspaceShipFromServer(spaceShipName, frontHead, body, backPart, leftWing, rightWing);
-
-
-
-
 
     },
     get3DspaceShipFromServer: function (spaceShipName, frontHead, body, backPart, leftWing, rightWing) {
@@ -160,7 +232,7 @@ export const threeJsApplication = {
         // get the 3d space ship from the server
 
         // generate the 3d space ship
-        this.generate3DspaceShip(spaceShipName, frontHead, body, backPart, leftWing, rightWing);
+        //this.generate3DspaceShip(spaceShipName, frontHead, body, backPart, leftWing, rightWing);
 
     },
     generate3DspaceShip: function (spaceShipName, frontHead, body, backPart, leftWing, rightWing) {

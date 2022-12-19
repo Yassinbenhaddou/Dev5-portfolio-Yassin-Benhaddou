@@ -79,11 +79,11 @@ router.post("/PostShips", async (req, res) => {
 
         await pg("spaceShips").insert({
             name,
-            frontHead,
-            body,
-            backPart,
-            leftWing,
-            rightWing,
+            frontHead: frontHead, 
+            body: body,
+            backPart: backPart,
+            leftWing: leftWing,
+            rightWing: rightWing,
             frontHeadColor : changeColorModelFromHexToX0Rgb(frontHeadColor),
             bodyColor : changeColorModelFromHexToX0Rgb(bodyColor),
             backPartColor : changeColorModelFromHexToX0Rgb(backPartColor),
@@ -92,9 +92,7 @@ router.post("/PostShips", async (req, res) => {
             
         }).then(data => {
             res.json(data);
-        }).catch(err => {
-            res.json(err);
-        });
+        })
     } else {
         res.json("error");
         console.log(`invalid input data for post ships to post 
@@ -117,7 +115,7 @@ router.delete("/DeleteShips/:id", async (req, res) => {
         res.json(data);
     }).catch(err => {
         res.json(err);
-    });
+    }); 
 });
 
 

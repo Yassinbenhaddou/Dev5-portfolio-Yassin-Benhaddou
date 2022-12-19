@@ -138,3 +138,25 @@ h1.contentTitle {
     background-color: rgb(183, 154, 216);
     color: rgb(235, 235, 235);
 }
+
+.deleteBtn{
+    background-color: rgb(183, 154, 216);
+    color: rgb(235, 235, 235);
+}
+
+.editBtn{
+    background-color: rgb(183, 154, 216);
+    color: rgb(235, 235, 235);
+}
+
+/* active button hover effect */
+.editBtn:active {
+    background-color: rgb(183, 154, 216);
+    color: rgb(235, 235, 235);
+}
+
+.deleteBtn:active {
+    background-color: rgb(183, 154, 216);
+    color: rgb(235, 235, 235);
+}
+

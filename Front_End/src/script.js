@@ -47,6 +47,7 @@ threeJsApplication.init(); //call the init function from the threeJsFile.js file
 
 // generate button trigger
 document.getElementById("generateBtn").addEventListener("click", function (e) {
+    e.preventDefault(); //prevent the default action of the button
 
     threeJsApplication.getFormInfoAndSendTosever();
 });
