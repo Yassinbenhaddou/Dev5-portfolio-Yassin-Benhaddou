@@ -15,12 +15,11 @@ var renderers = [];
 var geometryGroups = [];
 var allMySpaceShipsData;
 
-
 // export the threeJsApplication object
 export const threeJsApplication = {
     init: function () {
-     //fetch (GET) the space ships from the server
-     fetchFunctions.getSpaceShips();
+        //fetch (GET) the space ships from the server
+        fetchFunctions.getSpaceShips();
     },
     displaySpaceShips: function (data) {
         allMySpaceShipsData = data;
@@ -37,12 +36,9 @@ export const threeJsApplication = {
 
             scenes[i].background = new THREE.Color(0x0d001f);
 
-
             cameras[i] = new THREE.PerspectiveCamera(75, 1, 0.1, 10)
 
-
             cameras[i].position.z = 2
-
 
             canvas[i] = document.getElementById('canvas' + allMySpaceShipsData[i].id);
 
@@ -93,7 +89,7 @@ export const threeJsApplication = {
         this.addSpaceShipsListeners();
 
     },
-    addSpaceShipsListeners : function () {
+    addSpaceShipsListeners: function () {
 
         //delete btns listeners
         var deleteBtns = document.getElementsByClassName("deleteBtn");

@@ -1,5 +1,6 @@
-
-import { threeJsApplication } from "./threeJsFile.js";
+import {
+    threeJsApplication
+} from "./threeJsFile.js";
 export const fetchFunctions = {
     postSpaceShip: function (spaceShipToPost) {
 
@@ -26,8 +27,6 @@ export const fetchFunctions = {
             .then(response => response.json())
             .then(data => console.log(data))
             .catch(error => console.error(error));
-
-
     },
     getSpaceShips: function () {
 
@@ -37,10 +36,10 @@ export const fetchFunctions = {
             .then(data => {
                 console.log(data);
                 threeJsApplication.displaySpaceShips(data);
-            
-                
+
+
             });
-            
+
 
     },
     deleteSpaceShip: function (idOfTheSpaceShipToDelete) {
@@ -57,5 +56,7 @@ export const fetchFunctions = {
             });
 
     },
-    updateSpaceShip: function (spaceShipToUpdate) {}
+    updateSpaceShip: function (spaceShipToUpdate) {
+        
+    }
 }

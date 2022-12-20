@@ -62,8 +62,6 @@ export const spaceShipsGeneratorHelper = {
                 color: colorInt
             });
 
-
-
             //check what type of geometry the part is and add the mesh to the the part variable
             if (spaceShipParts[i] == "cone") {
                 part = new THREE.Mesh(coneGeometryMesh, material);
@@ -108,7 +106,7 @@ export const spaceShipsGeneratorHelper = {
         }
         return spaceShipInfo;
     }
-    
+
 
 
 };
