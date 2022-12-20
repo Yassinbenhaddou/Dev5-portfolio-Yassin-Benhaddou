@@ -6,7 +6,9 @@ const cylinderGeometryMesh = new THREE.CylinderGeometry(0.5, 0.5, 0.5, 0.5);
 
 export const spaceShipsGeneratorHelper = {
 
-    createNeededCanvas: function (allMySpaceShipsData) {
+    createNeededCanvas: function (allMySpaceShipsData) { 
+
+        // for each space ship, create a canvas
 
         for (var i = 0; i < allMySpaceShipsData.length; i++) {
             // create the canvas 

@@ -117,7 +117,7 @@ router.delete("/DeleteShips/:id", async (req, res) => {
   if (!id) {
     res.status(400).json({ error: "Missing id parameter" });
   } else {
-    await pg("spaceShips")
+    await pg("spaceShips") 
       .where("id", id)
       .del()
       .then(data => {
@@ -127,8 +127,8 @@ router.delete("/DeleteShips/:id", async (req, res) => {
         res.json(err);
       });
   }
-});
-
+}); 
+ 
 
 
 /**

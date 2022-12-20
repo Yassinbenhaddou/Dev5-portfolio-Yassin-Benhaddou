@@ -36,9 +36,10 @@ export const fetchFunctions = {
             .then(data => {
                 console.log(data);
                 threeJsApplication.displaySpaceShips(data);
-
-
-            });
+            })
+            .catch(error => {
+                console.error(error);
+            }); 
 
 
     },

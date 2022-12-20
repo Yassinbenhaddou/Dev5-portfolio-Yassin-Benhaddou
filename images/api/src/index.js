@@ -18,7 +18,7 @@ server.listen(PORT, () => {
     console.log(`Server listening at ${PORT}`);
     initialiseTables(); // initialise the tables
 });
- 
+
 
 // connect to the postgres database 
 const pg = require('knex')({
@@ -37,37 +37,44 @@ const pg = require('knex')({
  * if the tables don't exist, create them
  * if they exist, just console log that they exist
  */
+// Initialise the 'spaceShips' table in the database
 async function initialiseTables() {
-    await pg.schema.hasTable('spaceShips').then(function (exists) {
-        if (!exists) {
-            pg.schema.createTable('spaceShips', function (table) {
+    try {
+        // Check if the 'spaceShips' table already exists
+        const exists = await pg.schema.hasTable('spaceShips');
 
+        if (!exists) {
+            // Create the 'spaceShips' table if it doesn't exist
+            await pg.schema.createTable('spaceShips', table => {
                 table.increments('id').primary();
 
-                table.string('name');
+                table.string('name'); // name of the spaceship
+
+                // add the parts of the spaceship
                 table.string('frontHead');
                 table.string('body');
                 table.string('backPart');
-                table.string('leftWing'); 
+                table.string('leftWing');
                 table.string('rightWing');
-                //create a array of for the colors 
-               
-                table.integer('frontHeadColor');
-                table.integer('bodyColor');
-                table.integer('backPartColor');
-                table.integer('leftWingColor');
-                table.integer('rightWingColor');
-
-
-            }).then(async function () {
-
-                console.log('Table spaceShips created');
-            })
+                // Create an array of colors for each part of the spaceship
+                table.string('frontHeadColor');
+                table.string('bodyColor');
+                table.string('backPartColor');
+                table.string('leftWingColor');
+                table.string('rightWingColor');
+            });
+            console.log('Table spaceShips created');
         } else {
             console.log('Table spaceShips already exists');
         }
-    });
+    } catch (error) {
+        // Handle any errors that may occur
+        console.error(error);
+    }
 }
+
+
+
 
 
 /**
@@ -80,5 +87,3 @@ async function initialiseTables() {
  * Yassin 
  * 
  */
-
-

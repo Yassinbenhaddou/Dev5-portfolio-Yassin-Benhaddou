@@ -11,14 +11,14 @@ services:
       - ./images/api/src:/user/app/src
     environment:
       PG_CONNECTION_STRING: "postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@spaceShipsdb:5432/${POSTGRES_DB}"
-
+  
   
   store:
     container_name: spaceShipsdb
     image: postgres:latest
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $POSTGRES_USER -d $POSTGRES_DB"]
-      interval: 15s
+      interval: 25s
       timeout: 20s
       retries: 5
 

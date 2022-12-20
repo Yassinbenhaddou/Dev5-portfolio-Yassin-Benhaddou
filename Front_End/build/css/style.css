@@ -60,7 +60,7 @@ h1.contentTitle {
     color: rgb(254, 254, 254);
     font-size: 30px;
     font-weight: 600;
-    padding: 20px;
+    padding: 10px;
 }
 
 
@@ -69,6 +69,17 @@ h1.contentTitle {
     color: rgb(235, 235, 235);
 
 }
+
+/*show every space ship card in a row*/
+#spaceShipsListDiv div{
+   
+    margin-left: 40px;
+    margin-right: 40px;
+    display: inline-block;
+    
+}
+
+
 
 
 /* CSS for the space ship maker form */
@@ -166,3 +177,22 @@ h1.contentTitle {
     height: 200px;
 }
 
+
+/*CSS for the empty message*/
+
+#emptyDbMessageDiv {
+    margin: 50px;
+    color: rgb(235, 235, 235);
+    font-size: 20px;
+    font-weight: 600;
+    padding: 20px;
+    text-align: center;
+}
+
+#emptyDbMessageDiv h2 {
+    color: rgb(200, 177, 233);
+    font-size: 30px;
+    font-weight: 800;
+    padding: 20px;
+    text-align: center;
+}

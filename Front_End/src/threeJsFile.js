@@ -18,76 +18,92 @@ var allMySpaceShipsData;
 // export the threeJsApplication object
 export const threeJsApplication = {
     init: function () {
+
+
+
         //fetch (GET) the space ships from the server
         fetchFunctions.getSpaceShips();
     },
     displaySpaceShips: function (data) {
-        allMySpaceShipsData = data;
-        //create all needed canvas
-        spaceShipsGeneratorHelper.createNeededCanvas(allMySpaceShipsData);
 
-        //set for loo to create multiples scenes
-        for (var i = 0; i < allMySpaceShipsData.length; i++) {
-            console.log(allMySpaceShipsData[i].name);
+        //check if the data is empty or not and display the correct message (if empty show the empty message, if not empty show the space ships)
 
-            geometryGroups[i] = new THREE.Group();
+        if (data.length == 0) {
+            //add a empty message to the spaceShipsListDiv
+            document.getElementById("spaceShipsListDiv").innerHTML = `
+                <div class'spaceShipsCards' id="emptyDbMessageDiv">
+                    <h2>There are no space ships in the database</h2>
+                    <h2>please make a space ship and publish it</h2>
+                </div>
+                `;
+        } else {
 
-            scenes[i] = new THREE.Scene()
+            allMySpaceShipsData = data;
+            //create all needed canvas
+            spaceShipsGeneratorHelper.createNeededCanvas(allMySpaceShipsData);
 
-            scenes[i].background = new THREE.Color(0x0d001f);
+            //set for loo to create multiples scenes
+            for (var i = 0; i < allMySpaceShipsData.length; i++) {
+                console.log(allMySpaceShipsData[i].name);
 
-            cameras[i] = new THREE.PerspectiveCamera(75, 1, 0.1, 10)
+                geometryGroups[i] = new THREE.Group();
 
-            cameras[i].position.z = 2
+                scenes[i] = new THREE.Scene()
 
-            canvas[i] = document.getElementById('canvas' + allMySpaceShipsData[i].id);
+                scenes[i].background = new THREE.Color(0x0d001f);
 
-            renderers[i] = new THREE.WebGLRenderer({
-                canvas: canvas[i]
-            })
-            renderers[i].setSize(200, 200);
+                cameras[i] = new THREE.PerspectiveCamera(75, 1, 0.1, 10)
 
-            // push all the parts of the space ship into an array
-            var spaceShipParts = spaceShipsGeneratorHelper.pushEveryPartIntoAnArray(allMySpaceShipsData[i]);
+                cameras[i].position.z = 2
 
-            // push all the colors of the space ship into an array
-            var spaceShipColors = spaceShipsGeneratorHelper.pushEveryColorIntoAnArray(allMySpaceShipsData[i]);
+                canvas[i] = document.getElementById('canvas' + allMySpaceShipsData[i].id);
 
-            var cube = spaceShipsGeneratorHelper.generateTheCorrectSpaceShip(spaceShipParts, spaceShipColors);
-            geometryGroups[i].add(cube)
+                renderers[i] = new THREE.WebGLRenderer({
+                    canvas: canvas[i]
+                })
+                renderers[i].setSize(200, 200);
 
-            scenes[i].add(geometryGroups[i]);
+                // push all the parts of the space ship into an array
+                var spaceShipParts = spaceShipsGeneratorHelper.pushEveryPartIntoAnArray(allMySpaceShipsData[i]);
 
-        }
+                // push all the colors of the space ship into an array
+                var spaceShipColors = spaceShipsGeneratorHelper.pushEveryColorIntoAnArray(allMySpaceShipsData[i]);
 
-        var toAnimateAndRender = 0;
-        var toAnimateAndRenderMax = allMySpaceShipsData.length - 1;
+                var cube = spaceShipsGeneratorHelper.generateTheCorrectSpaceShip(spaceShipParts, spaceShipColors);
+                geometryGroups[i].add(cube)
 
-        function animate() {
-            requestAnimationFrame(animate)
+                scenes[i].add(geometryGroups[i]);
 
-            if (toAnimateAndRender > toAnimateAndRenderMax) {
-                toAnimateAndRender = 0;
             }
 
-            geometryGroups[toAnimateAndRender].rotation.x += 0.02
-            geometryGroups[toAnimateAndRender].rotation.y += 0.02
+            var toAnimateAndRender = 0;
+            var toAnimateAndRenderMax = allMySpaceShipsData.length - 1;
 
-            render();
+            function animate() {
+                requestAnimationFrame(animate)
 
-            toAnimateAndRender++;
+                if (toAnimateAndRender > toAnimateAndRenderMax) {
+                    toAnimateAndRender = 0;
+                }
+
+                geometryGroups[toAnimateAndRender].rotation.x += 0.02
+                geometryGroups[toAnimateAndRender].rotation.y += 0.02
+
+                render();
+
+                toAnimateAndRender++;
+            }
+
+            function render() {
+
+                renderers[toAnimateAndRender].render(scenes[toAnimateAndRender], cameras[toAnimateAndRender])
+
+            }
+
+            animate();
+
+            this.addSpaceShipsListeners();
         }
-
-        function render() {
-
-            renderers[toAnimateAndRender].render(scenes[toAnimateAndRender], cameras[toAnimateAndRender])
-
-        }
-
-        animate();
-
-        this.addSpaceShipsListeners();
-
     },
     addSpaceShipsListeners: function () {
 
