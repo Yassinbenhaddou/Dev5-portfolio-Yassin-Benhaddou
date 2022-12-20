@@ -19,7 +19,6 @@ export const spaceShipsGeneratorHelper = {
              </div>
              `;
         }
-
     },
     pushEveryPartIntoAnArray: function (spaceShipToGenerate) {
         // push all the parts of the space ship into an array
@@ -106,7 +105,4 @@ export const spaceShipsGeneratorHelper = {
         }
         return spaceShipInfo;
     }
-
-
-
 };

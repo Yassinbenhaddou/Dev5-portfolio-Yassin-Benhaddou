@@ -51,11 +51,12 @@ async function initialiseTables() {
                 table.string('leftWing'); 
                 table.string('rightWing');
                 //create a array of for the colors 
-                table.string('frontHeadColor');
-                table.string('bodyColor');
-                table.string('backPartColor');
-                table.string('leftWingColor');
-                table.string('rightWingColor');
+               
+                table.integer('frontHeadColor');
+                table.integer('bodyColor');
+                table.integer('backPartColor');
+                table.integer('leftWingColor');
+                table.integer('rightWingColor');
 
 
             }).then(async function () {

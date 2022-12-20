@@ -3,17 +3,17 @@ const express = require('express');
 
 const router = express.Router();
 
-const {
-    changeColorModelFromHexToX0Rgb
-} = require('../common/changeColorModelFunction.js');
+const {changeColorModelFromHexToX0Rgb} = require('../common/changeColorModelFunction.js');
 
 router.use(express.json());
 
 router.get('/', (req, res) => {
-    res.send('Hello World!');
+  res.send('Hello World!');
 });
 
 module.exports = router;
+
+
 
 // connect to the postgres database 
 const pg = require('knex')({
@@ -36,16 +36,16 @@ const pg = require('knex')({
  * @api {get} /spaceships Get all spaceships
  * @returns retunrSpaceShip
  */
-router.get("/ships", async (req, res) => {
+ router.get("/ships", async (req, res) => {
     const ships = await pg.select().from("spaceShips");
     res.json(ships);
 
     console.log("get ships");
-
+ 
 });
 
 
-
+console.log('AAAAAAAAAAAAAAAAAAAAAhhhhhhhhhhhhhhhhhh');
 
 /** 
  * template retunrSpaceShip:
@@ -62,7 +62,7 @@ router.get("/ships", async (req, res) => {
  */
 router.post("/PostShips", async (req, res) => {
     console.log("post ships");
-
+    
     const {
         name,
         frontHead,
@@ -75,37 +75,35 @@ router.post("/PostShips", async (req, res) => {
         backPartColor,
         leftWingColor,
         rightWingColor
+        
     } = req.body;
+    if (name && frontHead && body && backPart && leftWing && rightWing && frontHeadColor && bodyColor && backPartColor && leftWingColor && rightWingColor) {
 
-    if (!name || !frontHead || !body || !backPart || !leftWing || !rightWing || !frontHeadColor || !bodyColor || !backPartColor || !leftWingColor || !rightWingColor) {
-        res.status(400).json({
-            error: "Missing required parameters"
-        });
-    } else {
-        try {
-            const data = await pg("spaceShips").insert({
-                name: sqlstring.escape(name),
-                frontHead: sqlstring.escape(frontHead),
-                body: sqlstring.escape(body),
-                backPart: sqlstring.escape(backPart),
-                leftWing: sqlstring.escape(leftWing),
-                rightWing: sqlstring.escape(rightWing),
-                frontHeadColor: changeColorModelFromHexToX0Rgb(sqlstring.escape(frontHeadColor)),
-                bodyColor: changeColorModelFromHexToX0Rgb(sqlstring.escape(bodyColor)),
-                backPartColor: changeColorModelFromHexToX0Rgb(sqlstring.escape(backPartColor)),
-                leftWingColor: changeColorModelFromHexToX0Rgb(sqlstring.escape(leftWingColor)),
-                rightWingColor: changeColorModelFromHexToX0Rgb(sqlstring.escape(rightWingColor))
-            });
+        await pg("spaceShips").insert({
+            name,
+            frontHead: frontHead, 
+            body: body,
+            backPart: backPart,
+            leftWing: leftWing,
+            rightWing: rightWing,
+            frontHeadColor : changeColorModelFromHexToX0Rgb(frontHeadColor),
+            bodyColor : changeColorModelFromHexToX0Rgb(bodyColor),
+            backPartColor : changeColorModelFromHexToX0Rgb(backPartColor),
+            leftWingColor : changeColorModelFromHexToX0Rgb(leftWingColor),
+            rightWingColor : changeColorModelFromHexToX0Rgb(rightWingColor)
+            
+        }).then(data => {
             res.json(data);
             console.log("post ships success");
-        } catch (error) {
-            res.status(500).json({
-                error: "Error inserting data"
-            });
-        }
+        })
+    } else {
+        res.json("error");
+        console.log(`invalid input data for post ships to post 
+                    content correctly you need to provide a correct 
+                    name, frontHead, body, backPart, leftWing, rightWing, 
+                    frontHeadColor, bodyColor, backPartColor, leftWingColor, rightWingColor`);
     }
 });
-
 
 
 
@@ -114,23 +112,21 @@ router.post("/PostShips", async (req, res) => {
  * @param {string} id - the id of the ship to be deleted
  */
 router.delete("/DeleteShips/:id", async (req, res) => {
-    console.log("delete ship");
-    const id = req.params.id;
-    if (!id) {
-        res.status(400).json({
-            error: "Missing id parameter"
-        });
-    } else {
-        await pg("spaceShips")
-            .where("id", id)
-            .del()
-            .then(data => {
-                res.json(data);
-            })
-            .catch(err => {
-                res.json(err);
-            });
-    }
+  console.log("delete ship");
+  const id = req.params.id;
+  if (!id) {
+    res.status(400).json({ error: "Missing id parameter" });
+  } else {
+    await pg("spaceShips")
+      .where("id", id)
+      .del()
+      .then(data => {
+        res.json(data);
+      })
+      .catch(err => {
+        res.json(err);
+      });
+  }
 });
 
 
@@ -175,11 +171,11 @@ router.put("/PutShips/:id", async (req, res) => {
             backPart,
             leftWing,
             rightWing,
-            frontHeadColor: changeColorModelFromHexToX0Rgb(frontHeadColor),
-            bodyColor: changeColorModelFromHexToX0Rgb(bodyColor),
-            backPartColor: changeColorModelFromHexToX0Rgb(backPartColor),
-            leftWingColor: changeColorModelFromHexToX0Rgb(leftWingColor),
-            rightWingColor: changeColorModelFromHexToX0Rgb(rightWingColor)
+            frontHeadColor : changeColorModelFromHexToX0Rgb(frontHeadColor),
+            bodyColor : changeColorModelFromHexToX0Rgb(bodyColor),
+            backPartColor : changeColorModelFromHexToX0Rgb(backPartColor),
+            leftWingColor : changeColorModelFromHexToX0Rgb(leftWingColor),
+            rightWingColor : changeColorModelFromHexToX0Rgb(rightWingColor)
         }).then(data => {
             res.json(data);
         }).catch(err => {
