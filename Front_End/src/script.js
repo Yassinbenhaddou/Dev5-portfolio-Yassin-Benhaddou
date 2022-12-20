@@ -1,5 +1,4 @@
 "use strict"
-
 //Nav Bar Buttons functionality
 
 var navBarBtns = document.getElementsByClassName("navBtns"); //get all the nav bar buttons in an array
@@ -28,17 +27,8 @@ for (var i = 0; i < navBarBtns.length; i++) {
 
         this.classList.add("navSelected"); //add the navSelected class to the button that was clicked
     });
-
-
-
     
 }
-
-
-
-
-
-
 
 import { threeJsApplication } from './threeJsFile.js'; //import the threeJsFile.js file 
 
