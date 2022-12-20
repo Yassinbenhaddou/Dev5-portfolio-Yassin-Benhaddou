@@ -25,8 +25,10 @@ export const fetchFunctions = {
                 })
             })
             .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error(error));
+            .then(data =>{
+                threeJsApplication.init()
+                console.log(data)
+            }).catch(error => console.error(error));
     },
     getSpaceShips: function () {
 
@@ -51,6 +53,7 @@ export const fetchFunctions = {
             .then(response => response.json())
             .then(data => {
                 console.log(data);
+                threeJsApplication.init();
             })
             .catch(error => {
                 console.error(error);

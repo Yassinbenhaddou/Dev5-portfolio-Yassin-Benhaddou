@@ -2,6 +2,7 @@ version: "3.2"
 services:
 
   api:
+    container_name: spaceShipsServer
     depends_on:
       store:
         condition: service_healthy
@@ -32,3 +33,9 @@ services:
       POSTGRES_HOSTY_AUTH_METHOD:
     volumes:
       - ./_backup:/var/lib/postgresql/data
+
+  frontend:
+    container_name: spaceShipsFrontend
+    build: ./images/frontend
+    ports:
+      - 8080:80

@@ -26,6 +26,9 @@ export const threeJsApplication = {
     },
     displaySpaceShips: function (data) {
 
+        //empty the spaceShipsListDiv
+        document.getElementById("spaceShipsListDiv").innerHTML = "";
+
         //check if the data is empty or not and display the correct message (if empty show the empty message, if not empty show the space ships)
 
         if (data.length == 0) {

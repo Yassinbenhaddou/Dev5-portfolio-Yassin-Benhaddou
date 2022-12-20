@@ -132,24 +132,24 @@ router.delete("/DeleteShips/:id", async (req, res) => {
 
 
 /**
- * template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  motor: string - name motor of the spaceship
- *  wings: string - name wings of the spaceship
- *  reactor: string - name reactor of the spaceship
- *  shield: string - name shield of the spaceship
- *  weapon: string - name weapon of the spaceship
- *  pilot: string - name pilot of the spaceship
- * 
- * @api {put} /spaceships/:id Update a spaceship
- * @param {String} id ID of the spaceship
- * @return retunrSpaceShip
+ * update a ship endpoint 
+ * @param {string} id - the id of the ship to be updated
+ * @param {string} name - the name of the ship
+ * @param {string} frontHead - the front head of the ship
+ * @param {string} body - the body of the ship
+ * @param {string} backPart - the back part of the ship
+ * @param {string} leftWing - the left wing of the ship
+ * @param {string} rightWing - the right wing of the ship
+ * @param {string} frontHeadColor - the color of the front head of the ship
+ * @param {string} bodyColor - the color of the body of the ship
+ * @param {string} backPartColor - the color of the back part of the ship
+ * @param {string} leftWingColor - the color of the left wing of the ship
+ * @param {string} rightWingColor - the color of the right wing of the ship
  */
 router.put("/PutShips/:id", async (req, res) => {
     console.log("put ships");
     const id = req.params.id;
-    const {
+    const { 
         name,
         frontHead,
         body,
