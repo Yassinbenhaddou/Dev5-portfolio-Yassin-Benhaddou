@@ -8,4 +8,4 @@ RUN npm install --quiet
 
 COPY ./ ./
 
-CMD ["npm",  "test"]
+CMD ["npm",  "start"]

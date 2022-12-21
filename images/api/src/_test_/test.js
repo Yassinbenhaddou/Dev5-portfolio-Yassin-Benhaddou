@@ -10,8 +10,6 @@ const app = require('../index.js');
 console.log("start test");
 
 
-
-
 /** 
  * test suite for the GET /ships route
  */
@@ -29,9 +27,6 @@ describe('GET /ships/:id', () => {
   });
 });
 
-
-
-
 /** 
  * test suite for the GET /ships route
  */
@@ -47,11 +42,6 @@ describe('GET /ships', () => {
     expect(Array.isArray(res.body)).toBe(true);
   });
 });
-
-
-
-
-
 
 
 /**
@@ -84,18 +74,6 @@ describe('POST /PostShips', () => {
 });
 
 
-//it should not be but because i do not know how to start my unit test i will start it from here 
-
-/**
- * here is the unit test part of one function
- * it test the changeColorModelFromHexToX0Rgb function from the changeColorModelFunction.js file
- * */
-import { changeColorModelFromHexToX0Rgb } from "../common/changeColorModelFunction";
-
-//to test the changeColorModelFromHexToX0Rgb function we send a #ffffff color as parameter and the function should return 0Xffffff 
-const testChangeColorModelFromHexToX0Rgb = changeColorModelFromHexToX0Rgb.changeColorModelFromHexToX0Rgb("#ffffff");
-
-console.log(testChangeColorModelFromHexToX0Rgb); // it should return 0Xffffff
 
 
 
