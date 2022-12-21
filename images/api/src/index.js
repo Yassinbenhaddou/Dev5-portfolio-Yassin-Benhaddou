@@ -1,8 +1,31 @@
+// Description: This is the main file of the api, it contains the server and the database connection
+
+// require the express module
 const express = require("express");
+
+// create the express server
 const server = express();
+
+// require the routes from the routes folder ./routes/routes.js
+const routes = require('./routes/routes');
+
+// require the cors module
+const cors = require('cors');
+server.use(cors()); // server will use cors
+
+// the port number
 const PORT = 3000;
 
-server.use(express.json());
+//server will use the routes
+server.use('/', routes);
+
+/** 
+ * when the server starts, console log the port number and start the table initialisation
+ */
+server.listen(PORT, () => {
+    console.log(`Server listening at ${PORT}`); // when the server starts, console log that it is listening at the port number :D
+    initialiseTables(); // initialise the tables
+});
 
 
 // connect to the postgres database 
@@ -17,180 +40,50 @@ const pg = require('knex')({
 
 });
 
-
-
-/** 
- * when the server starts, console log the port number and start the table initialisation
- */
-server.listen(PORT, () => {
-    console.log(`Server listening at ${PORT}`);
-    initialiseTables(); // initialise the tables
-});
-
-
-
-/**template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  fictional: boolean - is the spaceship fictional
- *  img: string - url to the image of the spaceship
- * 
- * @api {get} /spaceships Get all spaceships
- * @returns retunrSpaceShip
- */
-server.get("/ships", async (req, res) => {
-    const ships = await pg.select().from("spaceShips");
-    res.json(ships);
-
-    console.log("get ships");
-
-});
-
-/** 
- * template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  fictional: boolean - is the spaceship fictional
- *  img: string - url to the image of the spaceship
- * 
- * @api {post} /spaceships Add a spaceship
- * @param {String} name Name of the spaceship
- * @param {Boolean} fictional Is the spaceship fictional?
- * @param {String} img URL of the spaceship image
- * @returns retunrSpaceShip - The spaceship that was added
- */
-server.post("/PostShips", async (req, res) => {
-    console.log("post ships");
-    const {
-        name,
-        motor,
-        wings,
-        reactor,
-        shield,
-        weapon,
-        pilot
-    } = req.body;
-    if (name, motor, wings, reactor, shield, weapon, pilot) {
-
-        await pg("spaceShips").insert({
-            name: name,
-            motor: motor,
-            wings: wings,
-            reactor: reactor,
-            shield: shield,
-            weapon: weapon,
-            pilot: pilot
-        }).then(data => {
-            res.json(data);
-        }).catch(err => {
-            res.json(err);
-        });
-    } else {
-        res.json("error");
-        console.log(`invalid input data for post ships to post 
-                    content correctly you need to provide a correct 
-                    name, motor, wings, reactor, shield, weapon, pilot`);
-    }
-});
-
-
-
-/**
- * delete a ship endpoint 
- * @param {string} id - the id of the ship to be deleted
- */
-server.delete("/DeleteShips/:id", async (req, res) => {
-    console.log("delete ships");
-    const id = req.params.id;
-    await pg("spaceShips").where("id", id).del().then(data => {
-        res.json(data);
-    }).catch(err => {
-        res.json(err);
-    });
-});
-
-
-
-/**
- * template retunrSpaceShip:
- *  id: string - id of the spaceship
- *  name: string - name of the spaceship
- *  motor: string - name motor of the spaceship
- *  wings: string - name wings of the spaceship
- *  reactor: string - name reactor of the spaceship
- *  shield: string - name shield of the spaceship
- *  weapon: string - name weapon of the spaceship
- *  pilot: string - name pilot of the spaceship
- * 
- * @api {put} /spaceships/:id Update a spaceship
- * @param {String} id ID of the spaceship
- * @return retunrSpaceShip
- */
-server.put("/PutShips/:id", async (req, res) => {
-    console.log("put ships");
-    const id = req.params.id;
-    const {
-        name,
-        motor,
-        wings,
-        reactor,
-        shield,
-        weapon,
-        pilot
-    } = req.body;
-    if (name, motor, wings, reactor, shield, weapon, pilot) {
-        await pg("spaceShips").where("id", id).update({
-            name: name,
-            motor: motor,
-            wings: wings,
-            reactor: reactor,
-            shield: shield,
-            weapon: weapon,
-            pilot: pilot
-        }).then(data => {
-            res.json(data);
-        }).catch(err => {
-            res.json(err);
-        });
-    } else {
-        res.json("error");
-    }
-});
-
-
-
-
-
 /** 
  * initialisation of the database tables 
  * if the tables don't exist, create them
  * if they exist, just console log that they exist
  */
+// Initialise the 'spaceShips' table in the database
 async function initialiseTables() {
-    await pg.schema.hasTable('spaceShips').then(function (exists) {
-        if (!exists) {
-            pg.schema.createTable('spaceShips', function (table) {
+    try {
+        // Check if the 'spaceShips' table already exists
+        const exists = await pg.schema.hasTable('spaceShips');
 
+        if (!exists) {
+            // Create the 'spaceShips' table if it doesn't exist
+            await pg.schema.createTable('spaceShips', table => {
                 table.increments('id').primary();
 
-                table.string('name');
-                table.string('motor');
-                table.string('wings');
-                table.string('reactor');
-                table.string('shield');
-                table.string('weapon');
-                table.string('pilot');
+                table.string('name'); // name of the spaceship
 
-            }).then(async function () {
-
-                console.log('Table spaceShips created');
-            })
+                // add the parts of the spaceship
+                table.string('frontHead');
+                table.string('body');
+                table.string('backPart');
+                table.string('leftWing');
+                table.string('rightWing');
+                // Create an array of colors for each part of the spaceship
+                table.string('frontHeadColor');
+                table.string('bodyColor');
+                table.string('backPartColor');
+                table.string('leftWingColor');
+                table.string('rightWingColor');
+            });
+            console.log('Table spaceShips created');
         } else {
+            //when the table already exists, console log that it already exists :D
             console.log('Table spaceShips already exists');
         }
-    });
+    } catch (error) {
+        // Handle any errors that may occur
+        console.error(error); // console log the error D:
+    }
 }
 
+
+module.exports = server; // export the server to be used in the test.js file and by the server.js file
 
 /**
  * Yo 
@@ -198,9 +91,7 @@ async function initialiseTables() {
  * This is the end of the code :>
  * i hope you like it !
  * 
- * sayonara :>
+ * sayonara :D
  * Yassin 
  * 
  */
-
-
