@@ -1,22 +1,29 @@
+// Description: This is the main file of the api, it contains the server and the database connection
 
+// require the express module
 const express = require("express");
 
-
+// create the express server
 const server = express();
+
+// require the routes from the routes folder ./routes/routes.js
 const routes = require('./routes/routes');
 
+// require the cors module
 const cors = require('cors');
-server.use(cors());
+server.use(cors()); // server will use cors
 
+// the port number
 const PORT = 3000;
 
+//server will use the routes
 server.use('/', routes);
 
 /** 
  * when the server starts, console log the port number and start the table initialisation
  */
 server.listen(PORT, () => {
-    console.log(`Server listening at ${PORT}`);
+    console.log(`Server listening at ${PORT}`); // when the server starts, console log that it is listening at the port number :D
     initialiseTables(); // initialise the tables
 });
 
@@ -66,24 +73,25 @@ async function initialiseTables() {
             });
             console.log('Table spaceShips created');
         } else {
+            //when the table already exists, console log that it already exists :D
             console.log('Table spaceShips already exists');
         }
     } catch (error) {
         // Handle any errors that may occur
-        console.error(error);
+        console.error(error); // console log the error D:
     }
 }
 
 
+module.exports = server; // export the server to be used in the test.js file and by the server.js file
 
-module.exports = server;
 /**
  * Yo 
  * 
  * This is the end of the code :>
  * i hope you like it !
  * 
- * sayonara :>
+ * sayonara :D
  * Yassin 
  * 
  */
