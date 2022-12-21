@@ -44,3 +44,28 @@ document.getElementById("generateBtn").addEventListener("click", function (e) {
     threeJsApplication.getFormInfoAndSendTosever();
 });
 
+
+
+
+// make a example array of dummy data (i need a array of arrays)
+
+var exampleArray = [id=1, name="test", color="red", part="body", x=0, y=0, z=0, rotation=0, scale=1, texture="texture1",];
+
+var exampleArray2 = [id=2, name="test2", color="blue", part="body", x=0, y=0, z=0, rotation=0, scale=1, texture="texture2",];
+
+var exampleArray3 = [id=3, name="test3", color="green", part="body", x=0, y=0, z=0, rotation=0, scale=1, texture="texture3",];
+
+var allExampleArrays = [exampleArray, exampleArray2, exampleArray3];
+
+console.log("testttt");
+console.log(allExampleArrays);
+
+var arraysToKeep = [1,3];
+
+//now keep only the arrays that have the id 1 and 3
+
+var filteredArray = allExampleArrays.filter(function (el) {
+    return arraysToKeep.indexOf(el.id) !== -1;
+});
+console.log("testttt");
+console.log(filteredArray);

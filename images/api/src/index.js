@@ -7,7 +7,7 @@ const routes = require('./routes/routes');
 const cors = require('cors');
 server.use(cors());
 
-const PORT = 80;
+const PORT = 3000;
 
 server.use('/', routes);
 

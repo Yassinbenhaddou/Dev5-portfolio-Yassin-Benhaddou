@@ -124,7 +124,10 @@ export const threeJsApplication = {
         for (var i = 0; i < editBtns.length; i++) {
             editBtns[i].addEventListener("click", function () {
                 console.log(this.id);
-                //fetchFunctions.getSpaceShip(this.id);
+                fetchFunctions.getSpaceShipById(this.id);
+                
+                
+
             });
         }
 
@@ -137,6 +140,68 @@ export const threeJsApplication = {
         fetchFunctions.postSpaceShip(spaceShipInfo)
 
         console.log("done");
+
+    },
+    updateSpaceShip: function (selectedSpaceShip) {
+
+        selectedSpaceShip = selectedSpaceShip[0];
+        console.log('Go update the space ship Hi Hi Hi =D');
+        console.log(selectedSpaceShip);
+
+        //to update the space ship we show it in the editYourSpaceShipCanva and we change the submit button to update button    we also change the value of the input corect color and correct part 
+        document.getElementById("editYourSpaceShipCanva").style.display = "block";
+        document.getElementById("generateBtn").style.display = "none";
+        document.getElementById("updateBtn").style.display = "block";
+
+        //render the 3d space ship in the editYourSpaceShipCanva
+
+        var scene = new THREE.Scene()
+
+        scene.background = new THREE.Color(0x0d001f);
+
+        var camera = new THREE.PerspectiveCamera(75, 1, 0.1, 10)
+
+        camera.position.z = 2
+
+        var canvas = document.getElementById('editYourSpaceShipCanva');
+
+        var renderer = new THREE.WebGLRenderer({
+            canvas: canvas
+        })
+
+        renderer.setSize(200, 200);
+
+        var geometryGroup = new THREE.Group();
+
+        // push all the parts of the space ship into an array
+        var spaceShipParts = spaceShipsGeneratorHelper.pushEveryPartIntoAnArray(selectedSpaceShip);
+
+        // push all the colors of the space ship into an array
+
+        var spaceShipColors = spaceShipsGeneratorHelper.pushEveryColorIntoAnArray(selectedSpaceShip);
+
+        var cube = spaceShipsGeneratorHelper.generateTheCorrectSpaceShip(spaceShipParts, spaceShipColors);
+
+        geometryGroup.add(cube)
+
+        scene.add(geometryGroup);
+
+        function animate() {
+            requestAnimationFrame(animate)
+
+            geometryGroup.rotation.x += 0.02
+            geometryGroup.rotation.y += 0.02
+
+            render();
+
+        }
+
+        function render() {
+
+            renderer.render(scene, camera)
+
+        }
+
 
     }
 

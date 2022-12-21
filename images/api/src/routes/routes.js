@@ -44,6 +44,13 @@ const pg = require('knex')({
  
 });
 
+/**get using id */
+router.get("/ships/:id", async (req, res) => {
+    const { id } = req.params;
+    const ships = await pg.select().from("spaceShips").where({ id });
+    res.json(ships);
+});
+
 
 console.log('AAAAAAAAAAAAAAAAAAAAAhhhhhhhhhhhhhhhhhh');
 

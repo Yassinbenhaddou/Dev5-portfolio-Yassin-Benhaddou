@@ -45,6 +45,17 @@ export const fetchFunctions = {
 
 
     },
+    getSpaceShipById : function (idOfTheSpaceShipToGet) {
+        fetch(`http://localhost/ships/${idOfTheSpaceShipToGet}`)
+            .then(response => response.json())
+            .then(data => {
+               // console.log(data);
+                threeJsApplication.updateSpaceShip(data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    },
     deleteSpaceShip: function (idOfTheSpaceShipToDelete) {
 
         fetch(`http://localhost/DeleteShips/${idOfTheSpaceShipToDelete}`, {
