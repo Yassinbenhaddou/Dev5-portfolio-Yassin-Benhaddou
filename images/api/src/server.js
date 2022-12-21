@@ -1,5 +1,5 @@
 const serverApp = {
-    function () {
+    server : function () {
 
         const express = require("express");
 
