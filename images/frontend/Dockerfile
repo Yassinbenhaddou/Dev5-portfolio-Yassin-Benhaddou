@@ -12,7 +12,7 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Stage 2: Copy the built artifacts to a new image
+# Stage 2: Serve the frontend application
 FROM nginx:latest
 COPY --from=build /app/dist /usr/share/nginx/html
 EXPOSE 80
