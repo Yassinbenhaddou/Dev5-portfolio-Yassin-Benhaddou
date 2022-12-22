@@ -6,12 +6,15 @@ const express = require("express");
 // create the express server
 const server = express();
 
-// require the routes from the routes folder ./routes/routes.js
-const routes = require('./routes/routes');
-
 // require the cors module
 const cors = require('cors');
 server.use(cors()); // server will use cors
+
+
+// require the routes from the routes folder ./routes/routes.js
+const routes = require('./routes/routes');
+
+
 
 // the port number
 const PORT = 3000;
