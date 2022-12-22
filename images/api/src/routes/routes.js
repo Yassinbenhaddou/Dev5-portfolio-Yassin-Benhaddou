@@ -217,7 +217,7 @@ router.put("/PutShips/:id", async (req, res) => {
         rightWingColor
     } = req.body; // get the data from the request body (the data that we want to update)
     //check if every all the input data is valid 
-    if (name, motor, wings, reactor, shield, weapon, pilot) {
+    if (name, frontHead, body, backPart, leftWing, rightWing, frontHeadColor, bodyColor, backPartColor, leftWingColor, rightWingColor) {
         await pg("spaceShips").where("id", id).update({
             name,
             frontHead,
