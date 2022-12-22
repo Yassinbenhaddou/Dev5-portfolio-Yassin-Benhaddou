@@ -17,11 +17,7 @@ router.use(express.json());
 
 //redirect to the public folder so you can access to the index.html file
 router.get('/', (req, res) => {
-    res.send(`Hey You what are you doing here? :D
-    
-    normaly it's not expected to see you here, 
-    but if you want to see the api go to the public http://localhost/public/index.html
-    ciao :D`);
+    res.redirect('../../public/index.html');
 });
 
 module.exports = router; // export the router to be used in the index.js file

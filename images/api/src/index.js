@@ -19,6 +19,8 @@ const PORT = 3000;
 //server will use the routes
 server.use('/', routes);
 
+
+
 /** 
  * when the server starts, console log the port number and start the table initialisation
  */
