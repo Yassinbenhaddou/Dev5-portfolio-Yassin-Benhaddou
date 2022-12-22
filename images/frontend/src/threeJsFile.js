@@ -1,25 +1,36 @@
 /* Three Js App */
 
+// import the spaceShipsGeneratorHelper from the spaceShipsGeneratorHelper.js file
 import {
     spaceShipsGeneratorHelper
 } from './spaceShipsGeneratorHelper.js';
 
+
+// import the fetchFunctions from the fetchFunctions.js file
 import {
     fetchFunctions
 } from './fetchFunctions.js';
 
-var canvas = [];
-var cameras = [];
-var scenes = [];
-var renderers = [];
-var geometryGroups = [];
-var allMySpaceShipsData;
+
+// import the updateScript from the updateScript.js file
+import {
+    updateScriptFunctions
+} from './updateScript.js';
+
+// to render my 3D space ships correctly using three.js, 
+//i need to create multiples canvas, scenes, cameras, renderers, geometryGroups, etc...
+// so i created arrays to store all the elements that i need to create
+
+var canvas = []; // this array will contain every canvas element that will be created
+var cameras = []; // this array will contain every camera that will be created
+var scenes = []; // this array will contain every scene that will be created
+var renderers = []; // this array will contain every renderer that will be created
+var geometryGroups = []; // this array will contain every geometryGroup that will be created
+var allMySpaceShipsData; // this array will contain every space ship data that will be fetched from the server
 
 // export the threeJsApplication object
 export const threeJsApplication = {
     init: function () {
-
-
 
         //fetch (GET) the space ships from the server
         fetchFunctions.getSpaceShips();
@@ -49,21 +60,23 @@ export const threeJsApplication = {
             for (var i = 0; i < allMySpaceShipsData.length; i++) {
                 console.log(allMySpaceShipsData[i].name);
 
-                geometryGroups[i] = new THREE.Group();
+                geometryGroups[i] = new THREE.Group(); // create a new geometryGroup
 
-                scenes[i] = new THREE.Scene()
+                scenes[i] = new THREE.Scene() // create a new scene
 
-                scenes[i].background = new THREE.Color(0x0d001f);
+                scenes[i].background = new THREE.Color(0x0d001f); // set the background color of the scene
 
-                cameras[i] = new THREE.PerspectiveCamera(75, 1, 0.1, 10)
+                cameras[i] = new THREE.PerspectiveCamera(75, 1, 0.1, 10) // create a new camera
 
-                cameras[i].position.z = 2
+                cameras[i].position.z = 2 // set the camera position
 
-                canvas[i] = document.getElementById('canvas' + allMySpaceShipsData[i].id);
+                canvas[i] = document.getElementById('canvas' + allMySpaceShipsData[i].id); // get the canvas element
 
+                // create a new renderer and set the canvas of the renderer to the canvas element
                 renderers[i] = new THREE.WebGLRenderer({
                     canvas: canvas[i]
                 })
+                // set the size of the renderer
                 renderers[i].setSize(200, 200);
 
                 // push all the parts of the space ship into an array
@@ -72,8 +85,8 @@ export const threeJsApplication = {
                 // push all the colors of the space ship into an array
                 var spaceShipColors = spaceShipsGeneratorHelper.pushEveryColorIntoAnArray(allMySpaceShipsData[i]);
 
-                var cube = spaceShipsGeneratorHelper.generateTheCorrectSpaceShip(spaceShipParts, spaceShipColors);
-                geometryGroups[i].add(cube)
+                var spaceSHipForm = spaceShipsGeneratorHelper.generateTheCorrectSpaceShip(spaceShipParts, spaceShipColors);
+                geometryGroups[i].add(spaceSHipForm)
 
                 scenes[i].add(geometryGroups[i]);
 
@@ -125,8 +138,8 @@ export const threeJsApplication = {
             editBtns[i].addEventListener("click", function () {
                 console.log(this.id);
                 fetchFunctions.getSpaceShipById(this.id);
-                
-                
+
+
 
             });
         }
@@ -144,64 +157,39 @@ export const threeJsApplication = {
     },
     updateSpaceShip: function (selectedSpaceShip) {
 
-        selectedSpaceShip = selectedSpaceShip[0];
+        //firt we need to move to the space ship maker page
+        document.getElementById("spaceShipsListId").classList.remove("navSelected"); //remove the class from the button
+
+        document.getElementById("spaceShipMakerId").classList.add("navSelected"); //add the navSelected class to the button that was clicked
+
+        document.getElementById("spaceShipsListIdDiv").style.display = "none"; //hide the div
+
+        //show the div that corresponds to the button that was clicked
+        document.getElementById("spaceShipMakerIdDiv").style.display = "block";
+
         console.log('Go update the space ship Hi Hi Hi =D');
+
+        selectedSpaceShip = selectedSpaceShip[0];
         console.log(selectedSpaceShip);
 
-        //to update the space ship we show it in the editYourSpaceShipCanva and we change the submit button to update button    we also change the value of the input corect color and correct part 
-        document.getElementById("editYourSpaceShipCanva").style.display = "block";
-        document.getElementById("generateBtn").style.display = "none";
-        document.getElementById("updateBtn").style.display = "block";
+        // generate the selected space ship using the setupTheFormWithTheCorrectValues function in the updateScriptFunctions.js file
+        updateScriptFunctions.generateTheSelectedSpaceShipInTheEditCanvas(selectedSpaceShip);
 
-        //render the 3d space ship in the editYourSpaceShipCanva
 
-        var scene = new THREE.Scene()
+        // before that we set the form with the correct values we need to set the colors code in the correct format
+        // set the colors code in the correct format using the setupTheFormWithTheCorrectValues function in the updateScriptFunctions.js file
+        selectedSpaceShip = updateScriptFunctions.TransformTheColorCode0x00000ToHexColorType(selectedSpaceShip);
 
-        scene.background = new THREE.Color(0x0d001f);
+        /* setup the form with the correct values */
+        updateScriptFunctions.setupTheFormWithTheCorrectValues(selectedSpaceShip);
 
-        var camera = new THREE.PerspectiveCamera(75, 1, 0.1, 10)
+        // add the update btn listener
+        document.getElementById("updateBtn").addEventListener("click", function () {
 
-        camera.position.z = 2
+            var updatedSpaceShip = spaceShipsGeneratorHelper.getSpaceShipInfoFromForm();
 
-        var canvas = document.getElementById('editYourSpaceShipCanva');
-
-        var renderer = new THREE.WebGLRenderer({
-            canvas: canvas
-        })
-
-        renderer.setSize(200, 200);
-
-        var geometryGroup = new THREE.Group();
-
-        // push all the parts of the space ship into an array
-        var spaceShipParts = spaceShipsGeneratorHelper.pushEveryPartIntoAnArray(selectedSpaceShip);
-
-        // push all the colors of the space ship into an array
-
-        var spaceShipColors = spaceShipsGeneratorHelper.pushEveryColorIntoAnArray(selectedSpaceShip);
-
-        var cube = spaceShipsGeneratorHelper.generateTheCorrectSpaceShip(spaceShipParts, spaceShipColors);
-
-        geometryGroup.add(cube)
-
-        scene.add(geometryGroup);
-
-        function animate() {
-            requestAnimationFrame(animate)
-
-            geometryGroup.rotation.x += 0.02
-            geometryGroup.rotation.y += 0.02
-
-            render();
-
-        }
-
-        function render() {
-
-            renderer.render(scene, camera)
-
-        }
-
+            fetchFunctions.updateSpaceShipFetch(updatedSpaceShip, selectedSpaceShip.id);
+        });
 
     }
 

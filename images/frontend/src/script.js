@@ -1,6 +1,5 @@
 "use strict"
 
-
 //Nav Bar Buttons functionality
 
 var navBarBtns = document.getElementsByClassName("navBtns"); //get all the nav bar buttons in an array

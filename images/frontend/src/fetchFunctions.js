@@ -25,7 +25,7 @@ export const fetchFunctions = {
                 })
             })
             .then(response => response.json())
-            .then(data =>{
+            .then(data => {
                 threeJsApplication.init()
                 console.log(data)
             }).catch(error => console.error(error));
@@ -41,15 +41,15 @@ export const fetchFunctions = {
             })
             .catch(error => {
                 console.error(error);
-            }); 
+            });
 
 
     },
-    getSpaceShipById : function (idOfTheSpaceShipToGet) {
+    getSpaceShipById: function (idOfTheSpaceShipToGet) {
         fetch(`http://localhost/ships/${idOfTheSpaceShipToGet}`)
             .then(response => response.json())
             .then(data => {
-               // console.log(data);
+                // console.log(data);
                 threeJsApplication.updateSpaceShip(data);
             })
             .catch(error => {
@@ -71,7 +71,36 @@ export const fetchFunctions = {
             });
 
     },
-    updateSpaceShip: function (spaceShipToUpdate) {
-        
+    updateSpaceShipFetch: function (spaceShipToUpdate, idOfTheSpaceShipToUpdate) {
+
+        fetch(`http://localhost/PutShips/${idOfTheSpaceShipToUpdate}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    name: spaceShipToUpdate.spaceShipName,
+                    frontHead: spaceShipToUpdate.frontHead[0],
+                    body: spaceShipToUpdate.body[0],
+                    backPart: spaceShipToUpdate.backPart[0],
+                    leftWing: spaceShipToUpdate.leftWing[0],
+                    rightWing: spaceShipToUpdate.rightWing[0],
+                    frontHeadColor: spaceShipToUpdate.frontHead[1],
+                    bodyColor: spaceShipToUpdate.body[1],
+                    backPartColor: spaceShipToUpdate.backPart[1],
+                    leftWingColor: spaceShipToUpdate.leftWing[1],
+                    rightWingColor: spaceShipToUpdate.rightWing[1]
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                //refresh the page
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error(error);
+            });
+
     }
 }

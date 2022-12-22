@@ -17,11 +17,7 @@ router.use(express.json());
 
 //redirect to the public folder so you can access to the index.html file
 router.get('/', (req, res) => {
-    res.send(`Hey You what are you doing here? :D
-    
-    normaly it's not expected to see you here, 
-    but if you want to see the api go to the public http://localhost/public/index.html
-    ciao :D`);
+    res.redirect('../../public/index.html');
 });
 
 module.exports = router; // export the router to be used in the index.js file
@@ -217,7 +213,7 @@ router.put("/PutShips/:id", async (req, res) => {
         rightWingColor
     } = req.body; // get the data from the request body (the data that we want to update)
     //check if every all the input data is valid 
-    if (name, motor, wings, reactor, shield, weapon, pilot) {
+    if (name, frontHead, body, backPart, leftWing, rightWing, frontHeadColor, bodyColor, backPartColor, leftWingColor, rightWingColor) {
         await pg("spaceShips").where("id", id).update({
             name,
             frontHead,
